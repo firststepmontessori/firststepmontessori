@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroArt from "../components/HeroArt.astro";
+import ProgrammeGrid from "../components/ProgrammeGrid.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import { getAdminIdentity } from "../lib/admin";
+import { getDatabase, getDraft, getPublishedDocument } from "../lib/db";
+const db = getDatabase(Astro.locals);
+const previewRequested = Astro.url.searchParams.get("preview") === "draft";
+const previewActor = previewRequested ? getAdminIdentity(Astro) : null;
+const site = previewActor ? (await getDraft(db)).document : await getPublishedDocument(db);
+---
+<BaseLayout site={site} pathname="/" noindex={Boolean(previewActor)}>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <p class="section-label">Montessori in Vidyaranyapura</p>
+        <h1>{site.pages.home.heroTitle}</h1>
+        <p class="lead">{site.pages.home.heroSummary}</p>
+        <div class="button-row">
+          <a class="button button-primary" href={`https://wa.me/${site.settings.whatsapp}?text=Hello%20First%20Step%20Montessori%2C%20I%20would%20like%20to%20book%20a%20school%20visit.`}>WhatsApp us</a>
+          <a class="button button-secondary" href="/admissions-contact">Book a school visit</a>
+        </div>
+        <div class="hero-note"><span>⌖ {site.settings.locality}</span><span>◷ {site.settings.hours}</span></div>
+      </div>
+      <HeroArt />
+    </div>
+  </section>
+
+  <section class="section surface-section">
+    <div class="shell">
+      <div class="section-head"><p class="section-label">Programmes</p><h2>Growing through four thoughtful stages</h2><p class="lead">An age-aware pathway with room for each child’s own pace, interests and readiness.</p></div>
+      <ProgrammeGrid programmes={site.programmes} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head"><p class="section-label">The Montessori approach</p><h2>A prepared environment makes purposeful independence possible</h2></div>
+      <div class="feature-grid">
+        <article class="card feature-card" data-reveal><div class="icon-wrap" aria-hidden="true">◇</div><h3>Hands-on learning</h3><p>Children understand ideas through direct experience with carefully sequenced materials and meaningful real-world activity.</p></article>
+        <article class="card feature-card" data-reveal><div class="icon-wrap" aria-hidden="true">◎</div><h3>Choice with order</h3><p>A clear environment and consistent limits help children choose work, concentrate and complete a cycle of activity.</p></article>
+        <article class="card feature-card" data-reveal><div class="icon-wrap" aria-hidden="true">↗</div><h3>Growing independence</h3><p>Everyday opportunities to care for self, others and the environment build capability and quiet confidence.</p></article>
+      </div>
+      <p style="margin-top:2rem"><a class="text-link" href="/montessori-approach">Explore our approach <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <section class="section surface-section">
+    <div class="shell split">
+      <div data-reveal><p class="section-label">Daycare</p><h2>A familiar place for the rest of the day</h2><p class="lead">A gentle balance of meals, rest, quiet activity and connection from 9:00 AM to 5:00 PM.</p><a class="text-link" href="/daycare">Discover daycare <span aria-hidden="true">→</span></a></div>
+      <ul class="fact-list" data-reveal>
+        <li><span aria-hidden="true">01</span><div><strong>Predictable rhythm</strong><span>Steady transitions help young children feel secure.</span></div></li>
+        <li><span aria-hidden="true">02</span><div><strong>Respectful care</strong><span>Calm, age-appropriate routines preserve dignity and independence.</span></div></li>
+        <li><span aria-hidden="true">03</span><div><strong>Direct communication</strong><span>Families contact the school team by phone or WhatsApp.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head"><p class="section-label">A day in rhythm</p><h2>Time to arrive, engage, restore and reconnect</h2></div>
+      <div class="rhythm">
+        <article class="rhythm-step card" data-reveal><h3>Welcome</h3><p>A calm arrival and a familiar beginning.</p></article>
+        <article class="rhythm-step card" data-reveal><h3>Choose & work</h3><p>Unhurried time for purposeful activity.</p></article>
+        <article class="rhythm-step card" data-reveal><h3>Gather & move</h3><p>Language, music, movement and connection.</p></article>
+        <article class="rhythm-step card" data-reveal><h3>Rest & return</h3><p>Meals, rest and an easy transition home.</p></article>
+      </div>
+      <p class="notice" style="margin-top:2rem">This illustrated rhythm is descriptive, not a published timetable. Exact schedules require school approval.</p>
+    </div>
+  </section>
+  <ContactCTA site={site} />
+</BaseLayout>

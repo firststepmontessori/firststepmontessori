@@ -1,0 +1,16 @@
+---
+import type { Programme } from "../content/schema";
+interface Props { programmes: Programme[]; links?: boolean }
+const { programmes, links = true } = Astro.props;
+---
+<div class="card-grid programme-grid">
+  {programmes.map((programme) => (
+    <article class="card program-card" data-program={programme.id} data-reveal>
+      <span class="program-symbol" aria-hidden="true"></span>
+      <h3>{programme.name}</h3>
+      <p class="age">{programme.ageRange}</p>
+      <p>{programme.summary}</p>
+      {links && <a class="text-link" href="/programmes">Explore programme <span aria-hidden="true">→</span></a>}
+    </article>
+  ))}
+</div>

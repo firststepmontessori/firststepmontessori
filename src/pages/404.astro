@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getDatabase, getPublishedDocument } from "../lib/db";
+const site = await getPublishedDocument(getDatabase(Astro.locals));
+Astro.response.status = 404;
+---
+<BaseLayout site={site} title="Page not found" pathname={Astro.url.pathname} noindex>
+  <section class="page-hero"><div class="shell"><p class="section-label">404</p><h1>This step doesn’t lead to a page</h1><p class="lead">The address may have changed, or the link may be incomplete.</p><div class="button-row"><a class="button button-primary" href="/">Return home</a><a class="button button-secondary" href="/admissions-contact">Contact the school</a></div></div></section>
+</BaseLayout>

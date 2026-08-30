@@ -1,0 +1,13 @@
+---
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<span class="brand-mark" aria-hidden="true">
+  <svg viewBox="0 0 64 64" role="img">
+    <rect x="7" y="34" width="22" height="22" rx="4" fill="var(--accent)" />
+    <path d="M35 56V32c0-9 7-16 16-16h4v40Z" fill="var(--accent-three)" />
+    <circle cx="18" cy="21" r="11" fill="var(--violet)" />
+    <path d="M31 9c10-3 19 1 23 10-10 3-19-1-23-10Z" fill="var(--accent-two)" />
+  </svg>
+</span>
+{!compact && <span class="brand-name">First Step Montessori</span>}

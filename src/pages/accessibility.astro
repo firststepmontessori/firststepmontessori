@@ -1,0 +1,10 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { getDatabase, getPublishedDocument } from "../lib/db";
+const site = await getPublishedDocument(getDatabase(Astro.locals));
+---
+<BaseLayout site={site} title="Accessibility" pathname="/accessibility">
+  <PageHero label="Accessibility" title="Designed to be clear, calm and usable" introduction="First Step Montessori aims for WCAG 2.2 Level AA across content, interaction, colour modes and responsive layouts." />
+  <article class="section surface-section policy"><div class="narrow"><h2>What the website supports</h2><p>Semantic page landmarks, a skip link, keyboard-visible focus, sufficiently large controls, descriptive links, responsive text, reduced-motion preferences and system-aware Light/Night modes are built into the shared design system.</p><h2>Colour and motion</h2><p>The default System setting follows the device colour scheme and reacts to changes. Visitors may explicitly choose Light or Night. Nonessential animation is removed when the device requests reduced motion.</p><h2>Known limits</h2><p>Third-party destinations such as Google Maps, Instagram and WhatsApp are outside this website’s accessibility control. Content-editor previews remain protected administrative tools.</p><h2>Feedback</h2><p>If something is difficult to use, email <a href={`mailto:${site.settings.email}`}>{site.settings.email}</a> with the page address and a short description.</p></div></article>
+</BaseLayout>

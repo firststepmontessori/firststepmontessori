@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AdminEditor from "../../components/admin/AdminEditor";
+import { defaultSiteDocument } from "../../content/default-site";
+import { getAdminIdentity } from "../../lib/admin";
+import { getDatabase, getDraft, listRevisions } from "../../lib/db";
+
+const actor = getAdminIdentity(Astro);
+if (!actor) return new Response("Cloudflare Access authentication required.", { status: 401 });
+const db = getDatabase(Astro.locals);
+const draft = await getDraft(db);
+const revisions = db ? await listRevisions(db) : [];
+---
+<BaseLayout site={defaultSiteDocument} title="Content editor" pathname="/admin" noindex>
+  <AdminEditor client:load initialDocument={draft.document} initialVersion={draft.version} initialRevisions={revisions} actor={actor} databaseAvailable={Boolean(db)} />
+</BaseLayout>

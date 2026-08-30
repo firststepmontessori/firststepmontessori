@@ -1,0 +1,98 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import type { SiteDocument } from "../content/schema";
+import { SITE_ENVIRONMENT, SITE_THEME } from "../lib/theme";
+
+interface Props {
+  site: SiteDocument;
+  title?: string;
+  description?: string;
+  pathname: string;
+  noindex?: boolean;
+}
+
+const { site, title, description = site.seo.defaultDescription, pathname, noindex = false } = Astro.props;
+const pageTitle = title ? `${title} | ${site.seo.titleSuffix}` : site.seo.titleSuffix;
+const canonical = new URL(pathname, Astro.site || Astro.url.origin).toString();
+const robots = noindex || SITE_ENVIRONMENT !== "production" ? "noindex,nofollow" : "index,follow,max-image-preview:none";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": ["EducationalOrganization", "LocalBusiness"],
+  name: site.settings.schoolName,
+  description: site.seo.defaultDescription,
+  url: Astro.site?.toString(),
+  telephone: site.settings.phone,
+  email: site.settings.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "#26, 6th Main, Leela Residency",
+    addressLocality: "Bengaluru",
+    addressRegion: "Karnataka",
+    postalCode: "560097",
+    addressCountry: "IN"
+  },
+  sameAs: [`https://instagram.com/${site.settings.instagram}`]
+};
+---
+<!doctype html>
+<html lang="en" data-resolved-mode="light" data-mode-preference="system">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      (() => {
+        const key = "fsm:colour-mode:v1";
+        const allowed = ["system", "light", "night"];
+        let preference = "system";
+        try { const saved = localStorage.getItem(key); if (saved && allowed.includes(saved)) preference = saved; } catch {}
+        const resolved = preference === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "light") : preference;
+        document.documentElement.dataset.modePreference = preference;
+        document.documentElement.dataset.resolvedMode = resolved;
+      })();
+    </script>
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content={SITE_THEME === "garden" ? "#2F5D50" : "#6237C9"} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body data-site-theme={SITE_THEME} class="mode-initializing">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <Header pathname={pathname} whatsapp={site.settings.whatsapp} />
+    <main id="main-content"><slot /></main>
+    <Footer site={site} />
+    <script>
+      const key = "fsm:colour-mode:v1";
+      const media = matchMedia("(prefers-color-scheme: dark)");
+      const root = document.documentElement;
+      const controls = Array.from(document.querySelectorAll("[data-mode-choice]"));
+      const apply = (preference: string, persist = true) => {
+        const safe = ["system", "light", "night"].includes(preference) ? preference : "system";
+        const resolved = safe === "system" ? (media.matches ? "night" : "light") : safe;
+        root.dataset.modePreference = safe;
+        root.dataset.resolvedMode = resolved;
+        controls.forEach((control) => control.setAttribute("aria-pressed", String(control.getAttribute("data-mode-choice") === safe)));
+        if (persist) { try { localStorage.setItem(key, safe); } catch {} }
+      };
+      controls.forEach((control) => control.addEventListener("click", () => apply(control.getAttribute("data-mode-choice") || "system")));
+      media.addEventListener("change", () => { if (root.dataset.modePreference === "system") apply("system", false); });
+      apply(root.dataset.modePreference || "system", false);
+      document.body.classList.remove("mode-initializing");
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.body.classList.add("motion-ready");
+        const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+          if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }
+        }), { rootMargin: "0px 0px -8%" });
+        document.querySelectorAll("[data-reveal]").forEach((element) => observer.observe(element));
+      }
+    </script>
+  </body>
+</html>

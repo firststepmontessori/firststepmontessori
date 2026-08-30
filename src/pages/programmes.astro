@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ProgrammeGrid from "../components/ProgrammeGrid.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import { getDatabase, getPublishedDocument } from "../lib/db";
+const site = await getPublishedDocument(getDatabase(Astro.locals));
+---
+<BaseLayout site={site} title="Programmes" pathname="/programmes">
+  <PageHero label="Programmes" title={site.pages.programmes.title} introduction={site.pages.programmes.introduction} />
+  <section class="section surface-section"><div class="shell"><ProgrammeGrid programmes={site.programmes} links={false} /></div></section>
+  <section class="section"><div class="shell split"><div data-reveal><p class="section-label">Placement</p><h2>Age guides the conversation; readiness completes it</h2></div><div class="content-stack" data-reveal><p>The flyer’s age bands help families identify a likely programme. The school should confirm the most suitable group after discussing the child’s age, previous experience, readiness and available places.</p><p>No fees, seat availability, calendar dates or guaranteed outcomes are published in version one. Please contact the school for current information.</p><p class="notice">Programme names and age bands require final written verification before the production domain is indexed.</p></div></div></section>
+  <ContactCTA site={site} title="Ask which programme may be the right first step" />
+</BaseLayout>

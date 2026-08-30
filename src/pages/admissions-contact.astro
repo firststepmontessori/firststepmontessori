@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { getDatabase, getPublishedDocument } from "../lib/db";
+const site = await getPublishedDocument(getDatabase(Astro.locals));
+---
+<BaseLayout site={site} title="Admissions and contact" pathname="/admissions-contact">
+  <PageHero label="Admissions & contact" title={site.pages.admissions.title} introduction={site.pages.admissions.introduction} />
+  <section class="section surface-section"><div class="shell"><div class="rhythm">
+    <article class="rhythm-step card" data-reveal><h3>Start a conversation</h3><p>Call or WhatsApp with your child’s age and the programme you are considering.</p></article>
+    <article class="rhythm-step card" data-reveal><h3>Arrange a visit</h3><p>Agree on a suitable time to see the environment and meet the school team.</p></article>
+    <article class="rhythm-step card" data-reveal><h3>Ask your questions</h3><p>Discuss schedule, availability, routines, fees and any support your child may need.</p></article>
+    <article class="rhythm-step card" data-reveal><h3>Confirm next steps</h3><p>The school will explain its current admission process and required documents.</p></article>
+  </div></div></section>
+  <section class="section"><div class="shell split"><div data-reveal><p class="section-label">Find us</p><h2>{site.settings.locality}</h2><p>{site.settings.address}</p><p>{site.settings.hours}</p><a class="text-link" href={site.settings.mapUrl}>Open in Google Maps <span aria-hidden="true">↗</span></a></div><div class="card" data-reveal><h3>Contact First Step Montessori</h3><ul class="fact-list"><li><div><strong>Phone</strong><a href={`tel:${site.settings.phone.replace(/\s/g, "")}`}>{site.settings.phone}</a></div></li><li><div><strong>WhatsApp</strong><a href={`https://wa.me/${site.settings.whatsapp}`}>Start a WhatsApp conversation</a></div></li><li><div><strong>Email</strong><a href={`mailto:${site.settings.email}`}>{site.settings.email}</a></div></li><li><div><strong>Instagram</strong><a href={`https://instagram.com/${site.settings.instagram}`}>@{site.settings.instagram}</a></div></li></ul></div></div></section>
+  <section class="section surface-section"><div class="narrow"><p class="notice">There is no public enquiry form. This reduces collection of parent and child information and keeps the first conversation directly with the school.</p></div></section>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import type { SiteDocument } from "../content/schema";
+interface Props { site: SiteDocument; title?: string }
+const { site, title = "Begin with a conversation and a school visit" } = Astro.props;
+---
+<section class="section">
+  <div class="shell location-card" data-reveal>
+    <div class="split">
+      <div><p class="section-label" style="color:inherit">Visit First Step</p><h2>{title}</h2></div>
+      <div>
+        <p>{site.settings.address}</p>
+        <p>{site.settings.hours}</p>
+        <div class="button-row">
+          <a class="button button-primary" href={`https://wa.me/${site.settings.whatsapp}?text=Hello%20First%20Step%20Montessori%2C%20I%20would%20like%20to%20book%20a%20school%20visit.`}>WhatsApp us</a>
+          <a class="button button-secondary" href={`tel:${site.settings.phone.replace(/\s/g, "")}`}>Call {site.settings.phone}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
