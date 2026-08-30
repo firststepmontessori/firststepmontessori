@@ -1,0 +1,46 @@
+{
+  "name": "first-step-montessori-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:admin:local": "node scripts/test-admin-flow.mjs",
+    "lint:docs": "markdownlint-cli2 'README.md' 'docs/**/*.md' 'design/**/*.md'",
+    "validate:docs": "node scripts/validate-docs.mjs",
+    "validate:no-photos": "node scripts/validate-no-photos.mjs",
+    "validate": "npm run check && npm run test && npm run lint:docs && npm run validate:docs && npm run validate:no-photos",
+    "cf:typegen": "wrangler types",
+    "db:migrate:local": "wrangler d1 migrations apply first-step-montessori-preview --local",
+    "deploy:garden": "npm run build:garden && wrangler deploy --env garden",
+    "deploy:geometry": "npm run build:geometry && wrangler deploy --env geometry",
+    "build:garden": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=garden SITE_ENV=preview astro build",
+    "build:geometry": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=geometry SITE_ENV=preview astro build"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "14.2.5",
+    "@astrojs/preact": "6.0.4",
+    "astro": "7.2.9",
+    "preact": "10.29.8",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "latest",
+    "markdownlint-cli2": "latest",
+    "typescript": "latest",
+    "vitest": "latest",
+    "wrangler": "4.127.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
