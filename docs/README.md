@@ -20,6 +20,7 @@
 | Indexing | Preview builds are `noindex,nofollow`; production is enabled only after domain and content approval |
 | Domain | Deferred for school selection |
 | Preview hosting | Garden and Geometry Workers deployed on `workers.dev` |
+| CI/CD | GitHub Actions validates `dev`/PRs and deploys merged `main`; environment secrets pending activation |
 | Preview data | Shared APAC D1 provisioned and migration `0001_content.sql` applied |
 | Admin access | Application rejects unauthenticated requests; Cloudflare Access awaits Zero Trust plan activation |
 

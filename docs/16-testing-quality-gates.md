@@ -1,9 +1,9 @@
 # Testing and quality gates
 
-- Status: Repository and local rendered baseline passing; deployed Lighthouse matrix pending
+- Status: Repository, local rendered baseline and GitHub Actions gates implemented; deployed Lighthouse matrix pending
 - Audience: Developers, QA, accessibility reviewers and operators
 - Owner: Quality owner
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Automated repository gates
 
@@ -21,6 +21,13 @@
 Test Garden Light/Night, Garden System, Geometry Light/Night and Geometry System at 375×812, 768×1024 and 1440×900. Include latest stable Chrome, Safari and Firefox. Verify navigation, mode persistence, live System changes, keyboard focus, mobile disclosure, direct contact links and custom 404.
 
 The 2026-08-30 local run passed sixteen Playwright checks across 1440px desktop and 390px mobile Chrome viewports, including Axe WCAG A/AA audits in Light and Night, semantic names, 44px primary mode targets, all public routes, preview robots, colour persistence/live System behavior, no-photo/no-upload, horizontal overflow and meaningful no-JavaScript rendering. The preferred in-app browser was attempted first but blocked local HTTP origins with `ERR_BLOCKED_BY_CLIENT`; Playwright using the installed Chrome binary was the documented fallback. Safari, Firefox, 768px tablet, screen-reader and deployed Lighthouse checks remain handover gates.
+
+GitHub Actions installs Chromium and runs the same sixteen tests after the
+repository gates. The Playwright server first compiles the Garden preview and
+applies the D1 migrations to its local test database, then serves the generated
+Worker through Wrangler local mode. This exercises the same built Worker,
+schema, static-assets binding and runtime configuration shape as deployment,
+while avoiding reliance on Astro's development dependency cache.
 
 ## Admin acceptance
 

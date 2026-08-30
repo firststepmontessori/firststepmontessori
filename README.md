@@ -34,6 +34,11 @@ themes with `npm run db:migrate:preview` and `npm run deploy:previews`. See the
 [integration and deployment record](docs/20-integrations-deployment-record.md)
 before changing Worker names, bindings or authentication.
 
+GitHub Actions validates every push to `dev` and every pull request to `main`.
+After an approved pull request is merged, a push to `main` deploys Garden and
+Geometry sequentially. The deploy job reads `CLOUDFLARE_ACCOUNT_ID` and
+`CLOUDFLARE_API_TOKEN` only from the protected GitHub `preview` environment.
+
 Playwright uses its installed Chromium by default. On this Mac, testing can reuse the installed Chrome binary through `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` as described in [quality gates](docs/16-testing-quality-gates.md).
 
 ## Documentation and designs
