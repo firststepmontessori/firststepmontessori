@@ -5,6 +5,7 @@ dist/
 .dev.vars
 .env
 .DS_Store
+.vscode/
 coverage/
 playwright-report/
 test-results/
