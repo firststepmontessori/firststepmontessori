@@ -1,9 +1,9 @@
 # Integrations and deployment record
 
-- Status: Preview integration operational; Access and production automation pending
+- Status: Preview integration operational; GitHub Actions activation pending secrets and merge
 - Audience: Repository maintainers, Cloudflare operators and school owners
 - Owner: Infrastructure maintainer
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Purpose
 
@@ -18,10 +18,12 @@ private email allowlists and recovery credentials.
 flowchart LR
     Org[GitHub organization] --> Repo[Website repository]
     Org --> Profile[School-only organization profile]
-    Dev[dev branch] --> PR[Pull request to protected main]
-    Dev --> Build[Reviewed local Wrangler deployment]
-    Build --> Garden[Garden preview Worker]
-    Build --> Geometry[Geometry preview Worker]
+    Dev[dev branch] --> CI[GitHub Actions validation]
+    CI --> PR[Pull request to protected main]
+    PR --> Main[main branch]
+    Main --> Deploy[GitHub Actions sequential deployment]
+    Deploy --> Garden[Garden preview Worker]
+    Deploy --> Geometry[Geometry preview Worker]
     Garden --> D1[(Shared preview D1)]
     Geometry --> D1
     Access[Cloudflare Access pending plan activation] -. protects admin paths .-> Garden
@@ -41,7 +43,8 @@ flowchart LR
 | Cloudflare Access | Preview admin applications | Pending Zero Trust plan activation and private allowlist approval |
 | Cloudflare DNS | Final school domain | Not selected |
 | Cloudflare Web Analytics | Production analytics | Not configured |
-| GitHub–Cloudflare builds | Cloudflare GitHub App | Not installed; deployments are currently manual and reviewed |
+| GitHub Actions | `.github/workflows/ci-cd.yml` | Prepared on `dev`; validates changes and deploys only merged `main` after secrets are configured |
+| GitHub–Cloudflare builds | Cloudflare GitHub App | Not required; deployment is owned by GitHub Actions and Wrangler |
 
 ## Live endpoints
 
@@ -62,6 +65,11 @@ commit and is pushed to `dev`; successful validation is recorded in the PR.
 The organization `.github` repository contains a school-only public profile.
 Its visible README must describe the school as an early-childhood education
 centre and must not discuss the website framework, hosting or design process.
+
+The website repository's CI/CD workflow validates pushes to `dev` and pull
+requests to `main`. Its deployment job runs only for `main` pushes or a manual
+dispatch from `main`, uses the protected `preview` environment and deploys the
+two themes sequentially. Pull requests never receive Cloudflare credentials.
 
 ## Cloudflare authentication
 
@@ -147,13 +155,24 @@ plan activation and the private identity allowlist. After approval:
    rollback flows;
 5. keep identities and policy identifiers out of Git.
 
-## Optional automatic builds
+## GitHub Actions activation
 
-There is no Cloudflare GitHub App installation today. Manual Wrangler deploys
-preserve explicit review and avoid granting repository access to another app.
-If automatic builds are approved later, record the GitHub App scope, selected
-repository, branch triggers, build command, deploy command, secrets ownership,
-failure notifications and rollback procedure here before enabling it.
+The workflow is version-controlled at `.github/workflows/ci-cd.yml`. Complete
+activation by creating the GitHub environment `preview`, optionally requiring
+an environment reviewer, and adding these encrypted environment secrets:
+
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
+
+The API token must be account-scoped and least-privilege. GitHub masks the
+stored values; maintainers must still avoid printing or copying them into job
+output. Rotate the token when a maintainer changes or if exposure is suspected.
+The Cloudflare GitHub App is not used because GitHub Actions runs the reviewed
+repository scripts directly through Wrangler.
+
+The normal release sequence is `dev` push, successful validation, pull request,
+approval, merge to `main`, automatic sequential preview deployment and endpoint
+verification. Manual local deployment is reserved for recovery.
 
 ## Production remains intentionally separate
 

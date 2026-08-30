@@ -5,6 +5,7 @@ const child = spawn(process.execPath, ["node_modules/astro/bin/astro.mjs", "dev"
   env: {
     ...process.env,
     ASTRO_TELEMETRY_DISABLED: "1",
+    ASTRO_DEV_BACKGROUND: "0",
     ADMIN_DEV_BYPASS: "true",
     SITE_THEME: process.env.SITE_THEME || "garden",
     SITE_ENV: "preview",
