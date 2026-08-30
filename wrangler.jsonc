@@ -18,7 +18,7 @@
     {
       "binding": "DB",
       "database_name": "first-step-montessori-preview",
-      "database_id": "REPLACE_WITH_PREVIEW_D1_DATABASE_ID",
+      "database_id": "197f2e6e-b6d4-4903-88dc-314e815c667a",
       "migrations_dir": "migrations"
     }
   ],
@@ -30,7 +30,7 @@
         {
           "binding": "DB",
           "database_name": "first-step-montessori-preview",
-          "database_id": "REPLACE_WITH_PREVIEW_D1_DATABASE_ID",
+          "database_id": "197f2e6e-b6d4-4903-88dc-314e815c667a",
           "migrations_dir": "migrations"
         }
       ]
@@ -42,7 +42,7 @@
         {
           "binding": "DB",
           "database_name": "first-step-montessori-preview",
-          "database_id": "REPLACE_WITH_PREVIEW_D1_DATABASE_ID",
+          "database_id": "197f2e6e-b6d4-4903-88dc-314e815c667a",
           "migrations_dir": "migrations"
         }
       ]

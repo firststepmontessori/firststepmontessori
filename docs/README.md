@@ -1,6 +1,6 @@
 # First Step Montessori website documentation
 
-- Status: Implementation baseline complete; deployment credentials and school approvals pending
+- Status: Preview implementation deployed; Access, school approval and production launch pending
 - Audience: School owner, maintainers, designers and future implementation partners
 - Owner: First Step Montessori website project
 - Last updated: 2026-08-30
@@ -19,6 +19,9 @@
 | Public contact | Direct call, WhatsApp, email, Instagram and map links; no form |
 | Indexing | Preview builds are `noindex,nofollow`; production is enabled only after domain and content approval |
 | Domain | Deferred for school selection |
+| Preview hosting | Garden and Geometry Workers deployed on `workers.dev` |
+| Preview data | Shared APAC D1 provisioned and migration `0001_content.sql` applied |
+| Admin access | Application rejects unauthenticated requests; Cloudflare Access awaits Zero Trust plan activation |
 
 ## Reading order
 
@@ -33,6 +36,7 @@
 9. [Data model and APIs](11-data-model-api-contracts.md), [Cloudflare infrastructure](12-cloudflare-infrastructure.md) and [admin workflow](13-admin-content-workflow.md)
 10. [SEO](14-seo-local-discovery.md), [security and child safety](15-security-privacy-child-safety.md), [quality gates](16-testing-quality-gates.md) and [operations](17-deployment-operations-handover.md)
 11. [Content verification checklist](18-content-verification-checklist.md) and [decisions and assumptions](19-decisions-assumptions.md)
+12. [Integration and deployment record](20-integrations-deployment-record.md)
 
 ## Architecture decision records
 

@@ -17,6 +17,10 @@
 - Version one contains no photography, media placeholders or upload path.
 - Parents contact the school through direct links, not a public form.
 - Preview deployments never enter search indexes.
+- The two preview Workers are deployed independently and share one migrated
+  APAC preview D1 database.
+- Preview deployment scripts pass explicit Worker names because Astro redirects
+  Wrangler to a generated deployment configuration.
 
 ## Working assumptions
 
@@ -24,7 +28,8 @@
 - Daycare hours refer to 9 AM–5 PM but operating days and exceptions are unknown.
 - English is the only version-one language.
 - Traffic and editing frequency are modest enough for Workers and D1 standard limits.
-- A school-controlled Cloudflare account, domain and identity provider will be available before handover.
+- The donor's Cloudflare account hosts the previews; a school-controlled
+  identity and final ownership model will be available before handover.
 
 ## Deferred decisions
 
@@ -33,6 +38,9 @@
 - Approved founder/team story and any Kuwait history.
 - Google Business Profile ownership and final map pin.
 - Cloudflare Web Analytics token and production caching policy.
+- Cloudflare Zero Trust plan activation and the named staff Access allowlist.
+- Whether to install the Cloudflare GitHub App for automatic preview builds or
+  keep reviewed manual Wrangler deployments.
 - Any future multilingual content, public form, media or parent services.
 
 ## Constraints

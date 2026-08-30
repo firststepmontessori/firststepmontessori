@@ -1,6 +1,6 @@
 # Security, privacy and child safety
 
-- Status: Implemented baseline; operational controls require Cloudflare configuration
+- Status: Public preview controls verified; Cloudflare Access activation pending
 - Audience: School owner, security reviewer, operators and developers
 - Owner: Security and privacy owner
 - Last updated: 2026-08-30
@@ -24,6 +24,14 @@ The public source and asset directories contain no raster images or upload surfa
 ## Access and secrets
 
 Private allowlists, tokens, account IDs, Access credentials and environment secrets belong in Cloudflare/CI configuration, not Git. Access policies should grant the minimum number of named staff, require strong identity-provider authentication and be reviewed when a staff member leaves.
+
+The deployed preview Workers reject `/admin` and `/api/admin` requests that do
+not carry a Cloudflare-provided identity. Ordinary unauthenticated requests and
+requests attempting to forge the identity header were verified to return
+`401`. The Cloudflare account still requires Zero Trust plan activation before
+the intended named-user Access applications can be created. Until then, the
+editor is intentionally unavailable rather than exposed with a development
+bypass.
 
 ## Incident response
 
