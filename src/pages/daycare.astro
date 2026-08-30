@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import { getDatabase, getPublishedDocument } from "../lib/db";
+const site = await getPublishedDocument(getDatabase(Astro.locals));
+---
+<BaseLayout site={site} title="Daycare" pathname="/daycare">
+  <PageHero label="Daycare" title={site.pages.daycare.title} introduction={site.pages.daycare.introduction} />
+  <section class="section surface-section"><div class="shell"><div class="feature-grid">
+    <article class="card feature-card" data-reveal><div class="icon-wrap">◷</div><h3>Steady routine</h3><p>Predictable transitions between activity, meals, rest and departure help children understand what comes next.</p></article>
+    <article class="card feature-card" data-reveal><div class="icon-wrap">⌂</div><h3>Familiar environment</h3><p>Care continues in a setting children know, with age-appropriate opportunities for quiet engagement and connection.</p></article>
+    <article class="card feature-card" data-reveal><div class="icon-wrap">♡</div><h3>Respectful care</h3><p>Routines should protect dignity, communicate calmly and encourage children to participate at an appropriate level.</p></article>
+  </div></div></section>
+  <section class="section"><div class="shell split"><div data-reveal><p class="section-label">Published hours</p><h2>{site.settings.hours}</h2></div><div class="content-stack" data-reveal><p>The daycare time comes from the school flyer. Families should confirm current availability, eligible ages, holiday schedules, meal arrangements, rest provision and late-pickup procedures directly with the school.</p><p>We do not publish assumptions about food, staffing ratios, transport, medical support or security arrangements. These details need the school’s written approval.</p></div></div></section>
+  <section class="section surface-section"><div class="narrow"><p class="section-label">Before enrolling</p><h2>Questions worth asking</h2><ul class="fact-list"><li>Which ages and programme groups can use daycare?</li><li>What should families send each day?</li><li>How are meals, allergies, medication and rest handled?</li><li>Who may collect a child, and how is identity checked?</li><li>How does the school communicate during an emergency?</li></ul></div></section>
+  <ContactCTA site={site} title="Discuss your family’s daycare needs directly" />
+</BaseLayout>

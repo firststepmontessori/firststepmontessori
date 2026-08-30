@@ -1,0 +1,33 @@
+---
+import Logo from "./Logo.astro";
+import ModeControl from "./ModeControl.astro";
+interface Props { pathname: string; whatsapp: string }
+const { pathname, whatsapp } = Astro.props;
+const links: Array<readonly [string, string]> = [
+  ["/about", "About"],
+  ["/montessori-approach", "Our approach"],
+  ["/programmes", "Programmes"],
+  ["/daycare", "Daycare"],
+  ["/admissions-contact", "Admissions & contact"]
+];
+const current = (href: string) => pathname === href ? "page" : undefined;
+---
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="/" aria-label="First Step Montessori home"><Logo /></a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      {links.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <ModeControl />
+      <a class="button button-primary header-cta" href={`https://wa.me/${whatsapp}?text=Hello%20First%20Step%20Montessori%2C%20I%20would%20like%20to%20book%20a%20school%20visit.`}>Book a visit</a>
+    </div>
+    <details class="mobile-nav">
+      <summary aria-label="Open navigation">Menu</summary>
+      <div class="mobile-panel">
+        {links.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
+        <ModeControl />
+      </div>
+    </details>
+  </div>
+</header>

@@ -1,0 +1,35 @@
+---
+import Logo from "./Logo.astro";
+import type { SiteDocument } from "../content/schema";
+interface Props { site: SiteDocument }
+const { site } = Astro.props;
+---
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="/" aria-label="First Step Montessori home"><Logo /></a>
+        <p style="margin-top:1rem;max-width:24rem;color:var(--muted)">A calm, prepared beginning for young learners in Vidyaranyapura, North Bangalore.</p>
+      </div>
+      <nav class="footer-links" aria-label="School information">
+        <strong>Explore</strong>
+        <a href="/about">About</a>
+        <a href="/montessori-approach">Our approach</a>
+        <a href="/programmes">Programmes</a>
+        <a href="/daycare">Daycare</a>
+        <a href="/admissions-contact">Admissions & contact</a>
+      </nav>
+      <div class="footer-links">
+        <strong>Contact</strong>
+        <a href={`tel:${site.settings.phone.replace(/\s/g, "")}`}>{site.settings.phone}</a>
+        <a href={`mailto:${site.settings.email}`}>{site.settings.email}</a>
+        <a href={`https://instagram.com/${site.settings.instagram}`}>@{site.settings.instagram}</a>
+        <span>{site.settings.locality}</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {new Date().getFullYear()} First Step Montessori</span>
+      <span><a href="/privacy">Privacy</a> · <a href="/child-safety-media">Child safety & media</a> · <a href="/accessibility">Accessibility</a></span>
+    </div>
+  </div>
+</footer>

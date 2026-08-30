@@ -1,0 +1,10 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { getDatabase, getPublishedDocument } from "../lib/db";
+const site = await getPublishedDocument(getDatabase(Astro.locals));
+---
+<BaseLayout site={site} title="Privacy" pathname="/privacy">
+  <PageHero label="Policy" title="Privacy without unnecessary collection" introduction="This website is designed to provide useful school information without collecting parent or child data through a public form." />
+  <article class="section surface-section policy"><div class="narrow"><h2>Information this website does not collect</h2><p>There are no public enquiry forms, parent accounts, advertising pixels, marketing cookies, child profiles or photo uploads. Colour-mode preference is stored only in your browser.</p><h2>Cloudflare services</h2><p>The site is delivered through Cloudflare, which may process standard network and security information such as IP addresses and request metadata to operate and protect the service. If enabled after launch, Cloudflare Web Analytics will be used without client-side cookies.</p><h2>Contact links</h2><p>Phone, email, Instagram, Google Maps and WhatsApp links open third-party services. Their own privacy terms apply after you follow a link.</p><h2>Administrative access</h2><p>Authorised staff identities and content actions are recorded for security and auditability. No private allowlist or credential is stored in this repository.</p><h2>Questions</h2><p>Contact <a href={`mailto:${site.settings.email}`}>{site.settings.email}</a> about this notice.</p></div></article>
+</BaseLayout>

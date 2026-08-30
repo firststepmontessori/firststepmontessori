@@ -1,0 +1,10 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { getDatabase, getPublishedDocument } from "../lib/db";
+const site = await getPublishedDocument(getDatabase(Astro.locals));
+---
+<BaseLayout site={site} title="Child safety and media policy" pathname="/child-safety-media">
+  <PageHero label="Child safety" title="No child photography in version one" introduction="The website uses typography, colour, CSS geometry and original SVG motifs. It contains no photographs, generated children, gallery placeholders or upload capability." />
+  <article class="section surface-section policy"><div class="narrow"><h2>Current rule</h2><p>No photograph or video depicting a child is accepted, stored, uploaded or displayed by this version of the website. The rule also excludes stock photographs, AI-generated children and decorative placeholders that imply a future gallery.</p><h2>Possible future change</h2><p>Photography may be considered only through a separate, documented decision after the school establishes a lawful, specific and revocable parent-consent process. Consent records must never be committed to this repository.</p><h2>Safeguards if policy changes</h2><p>A future proposal must cover image selection, metadata removal, access, retention, withdrawal, backups, third-party sharing and a process for prompt removal. It requires a new privacy review and implementation scope.</p><h2>Reporting a concern</h2><p>Please contact <a href={`mailto:${site.settings.email}`}>{site.settings.email}</a> or call <a href={`tel:${site.settings.phone.replace(/\s/g, "")}`}>{site.settings.phone}</a>.</p></div></article>
+</BaseLayout>

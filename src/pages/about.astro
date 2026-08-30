@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import { getDatabase, getPublishedDocument } from "../lib/db";
+const site = await getPublishedDocument(getDatabase(Astro.locals));
+---
+<BaseLayout site={site} title="About" pathname="/about">
+  <PageHero label="About First Step" title={site.pages.about.title} introduction={site.pages.about.introduction} />
+  <section class="section surface-section"><div class="shell split">
+    <div data-reveal><p class="section-label">Our beginning</p><h2>Established in 2025 for the neighbourhood’s early learners</h2></div>
+    <div class="content-stack" data-reveal><p>First Step Montessori serves families in Vidyaranyapura and nearby North Bangalore communities. The school’s public identity is intentionally grounded in what families can see, discuss and verify directly.</p><p>More of the school story and approved text-only team profiles can be added after the school confirms the exact public wording.</p></div>
+  </div></section>
+  <section class="section"><div class="shell"><div class="section-head"><p class="section-label">Values</p><h2>How we want every interaction to feel</h2></div><div class="feature-grid">
+    <article class="card feature-card" data-reveal><div class="icon-wrap">♡</div><h3>Respect</h3><p>We speak to children with care and treat developing independence with patience.</p></article>
+    <article class="card feature-card" data-reveal><div class="icon-wrap">○</div><h3>Order</h3><p>Simple routines and a prepared environment make the day easier to understand.</p></article>
+    <article class="card feature-card" data-reveal><div class="icon-wrap">✦</div><h3>Curiosity</h3><p>Questions, repetition and discovery are welcomed as essential parts of learning.</p></article>
+  </div></div></section>
+  <section class="section surface-section"><div class="narrow"><p class="section-label">Team</p><h2>Text-only profiles, published with approval</h2><p class="lead">Version one deliberately contains no staff or child photographs. Named team profiles will appear only after each person approves the exact public wording.</p></div></section>
+  <ContactCTA site={site} />
+</BaseLayout>
