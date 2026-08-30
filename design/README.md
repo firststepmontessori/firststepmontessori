@@ -1,7 +1,7 @@
 # First Step Montessori design concepts
 
-Status: Approved direction  
-Owner: Project team  
+Status: Approved direction
+Owner: Project team
 Last updated: 2026-08-30
 
 The PNG boards in this folder are compact design showcases, not literal page-density specifications. The implemented site uses the same visual language with substantially more whitespace and responsive section spacing.
