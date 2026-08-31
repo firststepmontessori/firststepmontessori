@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { siteDocumentSchema } from "./schema";
+import { blogPostSchema, siteDocumentSchema } from "./schema";
 
 const validDocument = {
   settings: {
@@ -38,5 +38,27 @@ describe("siteDocumentSchema", () => {
     const candidate = structuredClone(validDocument);
     candidate.programmes.pop();
     expect(siteDocumentSchema.safeParse(candidate).success).toBe(false);
+  });
+});
+
+describe("blogPostSchema", () => {
+  const validPost = {
+    title: "Why practical life matters",
+    slug: "why-practical-life-matters",
+    description: "A concise introduction to purposeful everyday activity.",
+    publishedDate: "2026-08-31",
+    author: "First Step Montessori",
+    topics: ["Montessori"],
+    draft: false,
+    featured: true,
+    illustration: "practical-life"
+  };
+
+  it("accepts a valid photo-free article record", () => {
+    expect(blogPostSchema.safeParse(validPost).success).toBe(true);
+  });
+
+  it("rejects unstable or unsafe slugs", () => {
+    expect(blogPostSchema.safeParse({ ...validPost, slug: "Changed URL!" }).success).toBe(false);
   });
 });

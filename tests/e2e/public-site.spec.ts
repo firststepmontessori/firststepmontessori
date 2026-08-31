@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const publicRoutes = ["/", "/about", "/montessori-approach", "/programmes", "/daycare", "/admissions-contact", "/privacy", "/child-safety-media", "/accessibility"];
+const publicRoutes = ["/", "/about", "/montessori-approach", "/programmes", "/daycare", "/admissions-contact", "/blog/", "/blog/why-montessori-begins-with-practical-life/", "/blog/topic/montessori/", "/privacy", "/child-safety-media", "/accessibility"];
 
 test("all public routes render useful semantic content", async ({ page }) => {
   for (const route of publicRoutes) {
@@ -15,6 +15,22 @@ test("shipped pages contain no photography or upload surface", async ({ page }) 
   await page.goto("/");
   await expect(page.locator("img, picture, video, input[type=file]")).toHaveCount(0);
   await expect(page.getByRole("link", { name: /WhatsApp us/i }).first()).toBeVisible();
+});
+
+test("journal routes are static, linked and semantically described", async ({ page }) => {
+  await page.goto("/blog/");
+  await page.getByRole("link", { name: "Why Montessori begins with practical life", exact: true }).click();
+  await expect(page).toHaveURL(/\/blog\/why-montessori-begins-with-practical-life\/$/);
+  await expect(page.locator("main article h1")).toHaveText("Why Montessori begins with practical life");
+  expect(await page.locator('script[type="application/ld+json"]').textContent()).toContain("BlogPosting");
+  await expect(page.locator("main img, main picture, main video, input[type=file]")).toHaveCount(0);
+});
+
+test("family-facing policies do not expose implementation details", async ({ page }) => {
+  for (const route of ["/privacy", "/child-safety-media", "/accessibility"]) {
+    await page.goto(route);
+    await expect(page.locator("main")).not.toContainText(/Cloudflare|D1|repository|API|framework/i);
+  }
 });
 
 test("colour preference persists and System resumes device changes", async ({ page }) => {

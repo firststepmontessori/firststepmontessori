@@ -1,0 +1,41 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ConceptIllustration from "../../components/ConceptIllustration.astro";
+import { formatPostDate, getPublishedPosts, topicSlug, type BlogEntry } from "../../content/blog";
+import { getSiteDocument } from "../../content/site";
+
+export async function getStaticPaths() {
+  return (await getPublishedPosts()).map((post) => ({ params: { slug: post.data.slug }, props: { post } }));
+}
+
+interface Props { post: BlogEntry }
+const { post } = Astro.props;
+const site = await getSiteDocument();
+const { Content, headings } = await render(post);
+---
+<BaseLayout
+  site={site}
+  title={post.data.title}
+  description={post.data.description}
+  pathname={`/blog/${post.data.slug}/`}
+  pageType="article"
+  publishedTime={post.data.publishedDate}
+  updatedTime={post.data.updatedDate}
+>
+  <Breadcrumbs items={[{ href: "/", label: "Home" }, { href: "/blog/", label: "Journal" }, { label: post.data.title }]} />
+  <article class="blog-article">
+    <header class="blog-article-header shell">
+      <p class="article-meta"><time datetime={post.data.publishedDate.toISOString()}>{formatPostDate(post.data.publishedDate)}</time><span aria-hidden="true">·</span>{post.data.author}</p>
+      <h1>{post.data.title}</h1>
+      <p class="lead">{post.data.description}</p>
+      <div class="topic-list" aria-label="Topics">{post.data.topics.map((topic) => <a href={`/blog/topic/${topicSlug(topic)}/`}>{topic}</a>)}</div>
+    </header>
+    {post.data.illustration && <div class="shell"><ConceptIllustration name={post.data.illustration} /></div>}
+    <div class="blog-body-layout shell">
+      {headings.length > 1 && <aside class="article-contents" aria-label="On this page"><strong>On this page</strong><ol>{headings.filter((heading) => heading.depth === 2).map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol></aside>}
+      <div class="prose"><Content /></div>
+    </div>
+  </article>
+</BaseLayout>
