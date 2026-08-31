@@ -1,37 +1,37 @@
 # Low-level design
 
-- Status: Implemented baseline
-- Audience: Developers, reviewers and operators
-- Owner: Application maintainer
-- Last updated: 2026-08-30
+- Status: Static modules and build lifecycle implemented
+- Audience: Developers and maintainers
+- Owner: Technical maintainer
+- Last updated: 2026-08-31
 
-## Module map
+## Modules
 
-| Module | Responsibility |
+| Area | Responsibility |
 |---|---|
-| `src/content/schema.ts` | Strict Zod schema and TypeScript content types |
-| `src/content/default-site.ts` | Repository fallback and initial content source |
-| `src/lib/db.ts` | Astro 7 `cloudflare:workers` D1 binding access, reads, optimistic saves, publishing, listing, restore and audit |
-| `src/lib/admin.ts` | Access identity extraction and consistent API errors |
-| `src/lib/theme.ts` | Compile-time theme/environment constants |
-| `src/middleware.ts` | Security, cache and robots headers |
-| `src/layouts/BaseLayout.astro` | Metadata, structured data, pre-paint mode logic and shared frame |
-| `src/components/` | Shared SSR visual and navigation components |
-| `src/components/admin/AdminEditor.tsx` | Only hydrated Preact island |
-| `src/pages/api/admin/` | Protected content endpoints |
+| `src/content.config.ts` | Registers validated school and journal collections |
+| `src/content/schema.ts` | Zod contracts for school facts, programmes and articles |
+| `src/content/site.ts` | Loads the single required school record at build time |
+| `src/content/blog.ts` | Filters/sorts published posts, checks unique slugs and derives topics |
+| `src/pages/` | Produces static school, policy, journal, RSS, sitemap and 404 routes |
+| `src/components/` | Shared semantic UI and original SVG visuals |
+| `src/layouts/BaseLayout.astro` | Canonical metadata, robots policy, JSON-LD and colour-mode bootstrap |
+| `public/_headers` | Static security and cache headers interpreted by Pages |
+| `public/_redirects` | Permanent article redirect rules |
 
-## Rendering lifecycle
+## Build lifecycle
 
-Public routes request the latest immutable D1 revision. When no D1 binding or published revision exists, they use the validated repository fallback, allowing local rendering and a safe initial deployment. Content is parsed through the same schema before use. Invalid stored JSON fails closed as an application error rather than rendering arbitrary data.
+1. Pages checks out a Git commit and installs the locked dependencies.
+2. Astro loads Markdown frontmatter through content collections.
+3. Zod rejects missing, malformed or overlong content.
+4. Static path functions enumerate articles, topics and pagination.
+5. Astro emits HTML, CSS, JS, RSS, sitemap and 404 artifacts into `dist`.
+6. Pages uploads `dist`; failed builds do not replace the previous deployment.
 
-## Theme resolution
+## Theme and environment resolution
 
-`SITE_THEME` is translated by Astro configuration into the compile-time `__SITE_THEME__` constant. Garden is the safe default and Geometry is selected only by the exact `geometry` value. CSS variables provide all theme and colour-mode differences; route markup and content remain shared.
+`SITE_THEME` accepts `garden` or `geometry`, defaulting to Garden. `SITE_ENV` accepts `production` or `preview`, defaulting to Preview. Preview output emits `noindex,nofollow`; production emits indexable metadata and a populated sitemap. Pages defines the values separately for production and preview environments.
 
-## Errors and concurrency
+## Failure behavior
 
-Invalid JSON returns 400; invalid schema/version returns 422; missing Access identity returns 401; cross-origin mutation returns 403; unavailable D1 returns 503; stale writes and duplicate publish/restore conflicts return 409. Draft updates use `WHERE version = expectedVersion`. Publishing uses a D1 batch and a unique revision number. Restoring writes the old document as a new draft version and never silently changes the live revision.
-
-## Caching
-
-Admin pages and APIs use `no-store`. Public SSR caching is intentionally deferred until a production content-invalidation policy is established. Static assets receive Cloudflare’s asset delivery behavior.
+Missing school content, duplicate blog slugs, invalid dates, unsafe slugs, Markdown images or raw HTML fail validation/build. A broken commit therefore cannot generate a successful Pages deployment. There is no runtime database, concurrent-edit lock or API failure mode; Git resolves editing conflicts before merge.

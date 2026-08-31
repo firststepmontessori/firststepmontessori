@@ -1,0 +1,43 @@
+---
+type IllustrationName = "practical-life" | "prepared-environment" | "independence" | "curiosity";
+interface Props { name: IllustrationName; compact?: boolean }
+const { name, compact = false } = Astro.props;
+const labels: Record<IllustrationName, string> = {
+  "practical-life": "Illustration of a small pitcher pouring into a cup beside a folded cloth",
+  "prepared-environment": "Illustration of ordered learning materials arranged on an accessible shelf",
+  independence: "Illustration of stepping blocks leading toward a growing plant",
+  curiosity: "Illustration of a magnifying glass discovering shapes and a sprouting seed"
+};
+---
+<figure class:list={["concept-illustration", { compact }]} role="img" aria-label={labels[name]} data-reveal>
+  <svg viewBox="0 0 640 400" fill="none" aria-hidden="true">
+    <path class="illustration-ground" d="M70 332c120 18 380 18 500 0" />
+    {name === "practical-life" && <>
+      <path class="illustration-primary" d="M176 116h116l-12 148c-2 28-20 44-46 44s-44-16-46-44l-12-148Z"/>
+      <path class="illustration-line" d="M282 143c68 3 80 52 42 79M187 148h94M212 99h44v17"/>
+      <path class="illustration-accent" d="M367 229h95v75c0 18-14 32-32 32h-31c-18 0-32-14-32-32v-75Z"/>
+      <path class="illustration-line" d="M462 247h19c31 0 31 48 0 48h-19M316 206c23 9 40 18 50 31"/>
+      <path class="illustration-soft" d="M124 301h142l-21 41H105l19-41Z"/>
+    </>}
+    {name === "prepared-environment" && <>
+      <path class="illustration-primary" d="M116 112h408v220H116z"/>
+      <path class="illustration-line" d="M116 212h408M252 112v220M390 112v220"/>
+      <path class="illustration-accent" d="M148 151h72v31h-72zm138-2h70v35h-70zm141 4h59v29h-59z"/>
+      <path class="illustration-soft" d="M154 260h61v44h-61zm137 14h63v30h-63zm126-17h82v47h-82z"/>
+      <path class="illustration-line" d="M151 151v-12h66v12M438 153c2-25 38-24 38 0"/>
+    </>}
+    {name === "independence" && <>
+      <path class="illustration-primary" d="M116 282h110v50H116zm110-69h110v119H226zm110-81h110v200H336z"/>
+      <path class="illustration-accent" d="M446 332V151"/>
+      <path class="illustration-line" d="M446 207c-45-5-70-33-79-73 46-4 72 22 79 73Zm0-29c39-5 62-29 70-65-40-3-63 20-70 65Z"/>
+      <circle class="illustration-soft" cx="446" cy="92" r="37"/>
+    </>}
+    {name === "curiosity" && <>
+      <circle class="illustration-primary" cx="270" cy="204" r="103"/>
+      <path class="illustration-line" d="m343 277 102 102M235 177l33-37 42 31-28 43-47-37Z"/>
+      <circle class="illustration-accent" cx="369" cy="102" r="37"/>
+      <path class="illustration-line" d="M144 280c0-54 31-84 77-96M151 279c-24-22-28-51-16-87 34 14 49 43 16 87Z"/>
+      <path class="illustration-soft" d="m425 222 32-43 36 43-36 39-32-39Z"/>
+    </>}
+  </svg>
+</figure>

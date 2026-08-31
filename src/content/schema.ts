@@ -41,3 +41,18 @@ export const siteDocumentSchema = z.object({
 
 export type SiteDocument = z.infer<typeof siteDocumentSchema>;
 export type Programme = z.infer<typeof programmeSchema>;
+
+export const blogPostSchema = z.object({
+  title: boundedText(120),
+  slug: z.string().trim().min(3).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use a lowercase, hyphen-separated slug"),
+  description: boundedText(180),
+  publishedDate: z.coerce.date(),
+  updatedDate: z.coerce.date().optional(),
+  author: boundedText(80),
+  topics: z.array(boundedText(40)).min(1).max(5),
+  draft: z.boolean().default(true),
+  featured: z.boolean().default(false),
+  illustration: z.enum(["practical-life", "prepared-environment", "independence", "curiosity"]).optional()
+});
+
+export type BlogPost = z.infer<typeof blogPostSchema>;

@@ -1,85 +1,41 @@
 # Deployment, operations and handover
 
-- Status: Preview deployments operational; GitHub Actions activation, Access and production handover pending
-- Audience: School owner, deployment operator and future maintainer
+- Status: Local/static workflow complete; Pages provisioning, cutover and production handover pending
+- Audience: Maintainers, Cloudflare operators and school owner
 - Owner: Operations owner
 - Last updated: 2026-08-31
 
-## Local setup
+## Local and repository workflow
 
-Use Node 22.12 or newer. Run `npm install`, apply the local D1 migration, and set `ADMIN_DEV_BYPASS=true` only in an uncommitted `.dev.vars` file for localhost editor testing. Run `npm run dev` for development and `npm run validate` before handover.
+Use Node 22.12 or newer. Run `npm install`, `npm run dev`, `npm run validate`, both theme builds with `npm run validate:static`, and browser tests before a release. Commit phase work to `dev`; publish only through a reviewed PR to protected `main`.
 
-## Preview deployment
+## Pages provisioning
 
-The shared APAC preview D1 database is provisioned and migrated. Deploy both
-themes sequentially with `npm run deploy:previews`; the shared `dist` directory
-means the builds must not run in parallel. Each script supplies an explicit
-Worker name because Astro redirects Wrangler to its generated server config.
+1. Reauthorize Cloudflare and install/authorize the Workers & Pages GitHub App for only the school repository.
+2. Create `first-step-montessori-garden` and `first-step-montessori-geometry` as Git-integrated Pages projects.
+3. Set `main` as production and allow `dev` previews.
+4. Set build command `npm run build`, output `dist`, Node `22.12.0`, project-specific `SITE_THEME`, Preview `SITE_ENV` and origin `PUBLIC_SITE_URL`.
+5. Confirm GitHub check runs and both `pages.dev` URLs.
+6. Verify routes, modes, headers, redirects, robots and static-only delivery.
 
-Live previews:
+Cloudflare configuration belongs in the dashboard and [infrastructure record](12-cloudflare-infrastructure.md), not repository secrets. Do not create a deploy hook or GitHub API token.
 
-- Garden: `https://first-step-montessori-garden-preview.harshu-1982.workers.dev`
-- Geometry: `https://first-step-montessori-geometry-preview.harshu-1982.workers.dev`
+## Legacy cutover and deletion
 
-Both return `noindex,nofollow`, disallow crawling in `robots.txt`, use the same
-D1 binding and reject unauthenticated admin requests. Cloudflare Access remains
-pending until the account owner activates a Zero Trust plan and approves the
-private identity allowlist.
+1. Inventory exact Worker and D1 identifiers after authentication.
+2. Export `first-step-montessori-preview` to a timestamped gitignored local SQL backup.
+3. Compare useful published D1 content with repository content.
+4. Verify both Pages sites and preserve evidence.
+5. Delete `first-step-montessori-garden-preview` and `first-step-montessori-geometry-preview`.
+6. Delete any additional project Worker only after ownership is confirmed.
+7. Delete D1 `first-step-montessori-preview` after no binding remains.
+8. Remove obsolete Cloudflare deployment secrets from GitHub.
+9. Confirm old Worker URLs no longer serve the site and update the integration record.
 
-## Deployment commands
+## Rollback and maintenance
 
-```bash
-npx wrangler login
-npx wrangler whoami
-npm ci
-npm run validate
-npm run db:migrate:preview
-npm run deploy:previews
-```
+For content/code, revert the merged PR and allow Pages to deploy the revert. For a Pages platform incident, select a previously successful Pages deployment while preparing the Git revert. Review dependencies and platform limits quarterly; validate contacts and school facts each term.
 
-Never run the Garden and Geometry deployment scripts concurrently because each
-rebuilds `dist`. Never remove the explicit `--name` arguments without first
-confirming how the active Astro adapter emits its redirected Wrangler config.
+## Production handover
 
-## GitHub Actions CI/CD
-
-The repository workflow at `.github/workflows/ci-cd.yml` enforces this path:
-
-1. pushes to `dev` run the complete validation suite;
-2. pull requests targeting `main` run the same validation suite;
-3. only an approved merge that produces a push to `main` can deploy;
-4. Garden builds and deploys first, followed by Geometry, because both use
-   `dist`;
-5. the workflow verifies both public preview endpoints after deployment.
-
-The deployment job uses the protected GitHub environment named `preview`. Add
-`CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` as environment secrets. The
-token must be scoped to the owning Cloudflare account and only the permissions
-needed to update the two Workers and read their existing D1 binding. Never put
-either value in Git, workflow YAML, logs or documentation.
-
-Manual `npm run deploy:previews` remains an incident-recovery procedure, not the
-normal release path. A failed Geometry deployment after a successful Garden
-deployment is a partial release; rerun the workflow after correcting the cause
-so both previews return to the same revision.
-
-## Production deployment
-
-After the school chooses a theme and domain, create a separate production D1 database, migrate it, seed/save/publish approved content, build with the chosen `SITE_THEME` and `SITE_ENV=production`, deploy the production environment and attach the custom domain. Remove or pause the losing demo after acceptance; never leave multiple indexable school identities.
-
-## Monitoring
-
-Enable Workers observability and review exception/error rates. Add Cloudflare Web Analytics after domain approval. Monitor uptime, contact-link integrity, Access sign-ins, audit events, Search Console coverage and Core Web Vitals. Avoid client advertising trackers.
-
-## Rollback
-
-Application rollback uses Cloudflare Worker version rollback. Content rollback restores an immutable revision into a draft, reviews it, then republishes. Database migrations must be additive whenever possible; take an export before a destructive schema change.
-
-## Handover package
-
-Transfer the domain, Cloudflare account/project access, repository ownership, recovery contacts and content-approval responsibility to school-controlled identities. Provide a short editor demonstration and record who can publish. Never hand over credentials through repository files.
-
-The current local Wrangler login is an operator credential, not a handover
-mechanism. A future maintainer must authenticate with their own approved
-Cloudflare identity. GitHub Actions uses a separate least-privilege CI token;
-rotating or revoking that token does not change an operator's local login.
+After theme and domain selection, keep one Pages project, set the production canonical/indexing environment, attach DNS, validate Search Console and optional privacy-friendly analytics, and disable/delete the unselected showcase. Give the school collaborator access, the operator guide and domain-renewal responsibility. There is no runtime bill to monitor.

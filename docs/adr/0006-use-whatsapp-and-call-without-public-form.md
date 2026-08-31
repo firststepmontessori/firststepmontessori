@@ -3,7 +3,7 @@
 - Status: Accepted
 - Audience: School owner, privacy reviewer, content staff and developers
 - Owner: Product owner
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Context
 
@@ -15,7 +15,7 @@ Provide direct WhatsApp, telephone, email, Instagram and map links. Do not provi
 
 ## Alternatives
 
-A Worker form plus D1 would be technically possible but creates sensitive data handling. Third-party form tools expand processors and tracking risk. Publishing only an email address is less convenient on mobile.
+A custom form and database would be technically possible but create sensitive-data handling. Third-party form tools expand processors and tracking risk. Publishing only an email address is less convenient on mobile.
 
 ## Consequences
 

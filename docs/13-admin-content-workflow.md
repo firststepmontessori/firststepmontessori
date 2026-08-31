@@ -1,48 +1,46 @@
-# Admin content workflow
+# GitHub content workflow
 
-- Status: Implemented baseline
-- Audience: Approved school staff, operators and developers
+- Status: Repository workflow implemented; branch protection and Pages previews pending remote setup
+- Audience: School operators, approvers and maintainers
 - Owner: School content owner
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
-## Lifecycle
+The filename is retained for historical links; there is no custom admin application. GitHub is the editing, identity, review and audit surface.
+
+## Draft, preview and publish lifecycle
 
 ```mermaid
 sequenceDiagram
-    participant S as Approved staff
-    participant A as Cloudflare Access
-    participant UI as Preact editor
-    participant API as Astro admin API
-    participant D as D1
-    S->>A: Authenticate
-    A->>UI: Identity header + protected page
-    UI->>API: PUT draft with expected version
-    API->>D: Conditional version update
-    alt Matching version
-        D-->>API: New draft version
-        API-->>UI: Saved
-    else Stale version
-        D-->>API: No row changed
-        API-->>UI: 409 Conflict
-    end
-    S->>UI: Review preview and publish
-    UI->>API: POST publish with version
-    API->>D: Immutable revision + pointer + audit batch
-    API-->>UI: Published revision
+    participant O as Approved operator
+    participant D as GitHub dev branch
+    participant C as Automated checks
+    participant P as Pages preview
+    participant R as Pull request review
+    participant M as Main branch
+    O->>D: Edit Markdown and commit
+    D->>C: Validate schema, links, safety and builds
+    D->>P: Native Git preview build
+    O->>P: Review Garden and Geometry
+    O->>R: Open dev to main PR
+    R->>M: Merge after approval and checks
+    M->>P: Native production build
 ```
 
-## Allowed editing
+## Permissions and boundaries
 
-The editor exposes contact details, homepage hero, SEO defaults and the four programme records. The schema also supports bounded pages and announcements for future editor controls without changing the database format.
+Operators may edit school facts and Markdown articles. They may select one approved illustration name. They may not add photographs, HTML, scripts, navigation, layout tokens, deployment settings or credentials. Main branch protection requires pull requests and passing checks.
 
-## Restricted editing
+## Revision and rollback
 
-Staff cannot upload media, insert HTML, add scripts, change route/navigation structure, edit layout tokens, select a deployment theme, change Access policy or alter infrastructure. These restrictions are enforced by the UI, strict schema and absence of any upload/API surface.
+```mermaid
+stateDiagram-v2
+    [*] --> DevDraft
+    DevDraft --> Previewed: checks and Pages preview pass
+    Previewed --> Published: reviewed PR merges to main
+    Published --> Correction: new dev commit
+    Published --> RevertPR: GitHub Revert
+    Correction --> Published: reviewed PR
+    RevertPR --> Published: reviewed revert PR
+```
 
-## Preview and publish
-
-Save creates a new draft version. Preview opens a public-style rendering target; production implementation should extend request handling to select the protected draft only when Access identity is present. Until that enhancement is enabled, editors verify text in the bounded fields and publish to view it publicly on a noindex preview Worker. Publish creates an immutable revision.
-
-## Rollback
-
-Restore copies an immutable revision into a new draft version. Staff must review and explicitly publish it. This preserves auditability and avoids an accidental one-click live rollback.
+Git commits are immutable history for normal operations. Rollback creates a new revert commit through a pull request; never force-push or rewrite `main`. See the [operator guide](21-content-operator-guide.md).

@@ -1,0 +1,18 @@
+---
+import type { BlogEntry } from "../content/blog";
+import { formatPostDate, topicSlug } from "../content/blog";
+import ConceptIllustration from "./ConceptIllustration.astro";
+interface Props { post: BlogEntry }
+const { post } = Astro.props;
+---
+<article class="article-card" data-reveal>
+  {post.data.illustration && <ConceptIllustration name={post.data.illustration} compact />}
+  <div class="article-card-copy">
+    <p class="article-meta"><time datetime={post.data.publishedDate.toISOString()}>{formatPostDate(post.data.publishedDate)}</time><span aria-hidden="true">·</span>{post.data.author}</p>
+    <h2><a href={`/blog/${post.data.slug}/`}>{post.data.title}</a></h2>
+    <p>{post.data.description}</p>
+    <div class="topic-list" aria-label="Topics">
+      {post.data.topics.map((topic) => <a href={`/blog/topic/${topicSlug(topic)}/`}>{topic}</a>)}
+    </div>
+  </div>
+</article>

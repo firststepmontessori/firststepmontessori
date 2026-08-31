@@ -3,7 +3,7 @@
 - Status: Accepted
 - Audience: School owner, content staff, designers and developers
 - Owner: Child-safety owner
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Context
 
@@ -19,4 +19,4 @@ Stock or AI-generated children would conflict with authenticity and still create
 
 ## Consequences
 
-The site is distinctive, fast and safer by default. Any future media proposal requires a new decision, consent/governance design and privacy/security review; it cannot enter through the current admin.
+The site is distinctive, fast and safer by default. Any future media proposal requires a new decision, consent/governance design and privacy/security review; it cannot enter through routine content editing.

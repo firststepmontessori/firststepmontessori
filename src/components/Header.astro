@@ -8,9 +8,10 @@ const links: Array<readonly [string, string]> = [
   ["/montessori-approach", "Our approach"],
   ["/programmes", "Programmes"],
   ["/daycare", "Daycare"],
+  ["/blog/", "Journal"],
   ["/admissions-contact", "Admissions & contact"]
 ];
-const current = (href: string) => pathname === href ? "page" : undefined;
+const current = (href: string) => pathname === href || (href === "/blog/" && pathname.startsWith("/blog/")) ? "page" : undefined;
 ---
 <header class="site-header">
   <div class="shell header-row">

@@ -1,36 +1,30 @@
 # Implementation plan
 
-- Status: Implemented baseline; external Cloudflare provisioning and content approval pending
-- Audience: Project owner, school approver and technical maintainers
-- Owner: Website project maintainer
-- Last updated: 2026-08-30
+- Status: Static migration implemented; remote Pages cutover pending
+- Audience: School owner, maintainers and reviewers
+- Owner: Delivery maintainer
+- Last updated: 2026-08-31
 
 ## Objective
 
-Deliver a functional, maintainable and gift-funded school website that is fast, locally discoverable, privacy-conscious and inexpensive to operate. The repository now contains the public application, dual themes, colour-mode controller, D1 content workflow, Cloudflare configuration, tests, validation scripts, design references and handover documentation.
+Deliver a useful, fast and maintainable school website whose normal operation has no metered runtime component. GitHub stores approved content and history; Cloudflare Pages builds and serves static files.
 
 ## Delivery status
 
-| Sequence | Deliverable | Status |
+| Phase | Deliverable | Status |
 |---|---|---|
-| 1 | Documentation and ADR baseline | Implemented |
-| 2 | Facts separated from unresolved content | Implemented; school approval pending |
-| 3 | Logo treatment | Code-native geometric mark implemented; flyer vector tracing deferred pending brand approval |
-| 4 | Garden Light/Night concepts | Approved and saved under `design/` |
-| 5 | Geometry Light/Night concepts | Approved and saved under `design/` |
-| 6 | Layout/design records | Implemented in docs and CSS tokens |
-| 7 | Shared Astro architecture and admin | Implemented |
-| 8 | Both themes and three-mode controller | Implemented |
-| 9 | Two Cloudflare preview deployments | Blocked on Cloudflare account IDs/authentication; configuration ready |
-| 10 | Automated and browser QA | Automated baseline implemented; final Lighthouse and device matrix follow deployment |
-| 11 | School presentation | Pending preview URLs |
-| 12 | Domain connection | Deferred until school chooses theme and domain |
-| 13 | Production SEO and handover | Deferred until domain and approved facts are available |
+| 1 | Static Astro architecture and repository content | Complete on `dev` |
+| 2 | Journal routes, sourced article and meaningful SVG illustrations | Complete on `dev` |
+| 3 | GitHub operator workflow and validation-only Actions | Complete on `dev` |
+| 4 | Documentation, static-output QA and browser QA | In progress |
+| 5 | PR to `main`, two native Pages projects and live verification | Pending authorization/merge |
+| 6 | D1 export, legacy Worker/D1 deletion and credential cleanup | Pending Pages acceptance |
+| 7 | Theme selection, domain, indexing and school handover | Pending school decision |
 
-## Implementation boundaries
+## Implementation boundary
 
-Version one includes six public pages, three footer policies, a custom 404, SSR metadata, structured data, sitemap/robots behavior, direct contact actions and a protected bounded editor. It excludes media, public forms, fees, portals, blogs, payment, unverified founder claims and unverified accreditations.
+The site includes six school-information pages, three family-facing policy pages, a custom 404, a static journal with topics/RSS, two themes, System/Light/Night modes, subtle motion, SEO metadata and direct contact actions. It excludes photographs, uploads, forms, portals, payments, fees, unverified employment/accreditation claims and runtime administration.
 
-## Completion definition
+## Cutover rule
 
-The repository baseline is complete when both theme builds pass type checking, unit tests, documentation validation and the no-photo gate. Operational completion additionally requires school fact approval, real D1 identifiers, Access policy configuration, two preview deployments, browser/accessibility/performance QA and later a production domain.
+Never delete a live resource before its replacement is independently verified. Export the preview D1 database, compare any useful published content with repository content, verify both Pages projects, then remove the legacy Workers, D1 and GitHub deployment secrets. Record the evidence in [the integration record](20-integrations-deployment-record.md).

@@ -1,22 +1,22 @@
 # ADR 0003: Use D1 and Cloudflare Access for admin
 
-- Status: Accepted
+- Status: Superseded by ADR 0007
 - Audience: Technical maintainers, operators and security reviewers
 - Owner: Solution architect
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Context
 
-Approved staff need bounded content editing, publishing and rollback without a custom password system or non-Cloudflare backend.
+The initial design prioritized a custom browser editor with drafts, publishing and rollback.
 
 ## Decision
 
-Store a single optimistic draft, immutable revisions and audit events in D1. Put the Astro/Preact editor and all admin APIs behind Cloudflare Access. Treat the Access identity header as the staff identity after the edge policy succeeds.
+The project initially stored drafts/revisions in D1 and protected an Astro/Preact editor and APIs with Cloudflare Access.
 
 ## Alternatives
 
-Git-only content makes routine changes technical. A third-party CMS expands cost and data/process boundaries. Custom authentication creates password, recovery and session responsibilities that Access already covers.
+Git-managed content is less familiar to nontechnical editors. A third-party CMS expands cost and data boundaries. Custom authentication creates password, recovery and session responsibilities.
 
 ## Consequences
 
-Administration stays within Cloudflare and uses prepared statements plus strict schemas. Operators must configure Access correctly and maintain D1 migrations. The repository must never contain the staff allowlist.
+The design created ongoing runtime/storage/authentication responsibilities. Cost certainty later became the stronger requirement, so [ADR 0007](0007-use-static-astro-on-cloudflare-pages.md) replaces the editor with GitHub Markdown, PR previews and Git rollback.

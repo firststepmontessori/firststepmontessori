@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
-import { getDatabase, getPublishedDocument } from "../lib/db";
-const site = await getPublishedDocument(getDatabase(Astro.locals));
+import { getSiteDocument } from "../content/site";
+const site = await getSiteDocument();
 ---
 <BaseLayout site={site} title="Privacy" pathname="/privacy">
-  <PageHero label="Policy" title="Privacy without unnecessary collection" introduction="This website is designed to provide useful school information without collecting parent or child data through a public form." />
-  <article class="section surface-section policy"><div class="narrow"><h2>Information this website does not collect</h2><p>There are no public enquiry forms, parent accounts, advertising pixels, marketing cookies, child profiles or photo uploads. Colour-mode preference is stored only in your browser.</p><h2>Cloudflare services</h2><p>The site is delivered through Cloudflare, which may process standard network and security information such as IP addresses and request metadata to operate and protect the service. If enabled after launch, Cloudflare Web Analytics will be used without client-side cookies.</p><h2>Contact links</h2><p>Phone, email, Instagram, Google Maps and WhatsApp links open third-party services. Their own privacy terms apply after you follow a link.</p><h2>Administrative access</h2><p>Authorised staff identities and content actions are recorded for security and auditability. No private allowlist or credential is stored in this repository.</p><h2>Questions</h2><p>Contact <a href={`mailto:${site.settings.email}`}>{site.settings.email}</a> about this notice.</p></div></article>
+  <PageHero label="Privacy" title="Useful information without unnecessary collection" introduction="Families can explore the school and contact us directly without submitting personal details through this website." />
+  <article class="section surface-section policy"><div class="narrow"><h2>What we ask from you</h2><p>This website has no enquiry form, parent account or child profile. You can read every public page without giving us your name, phone number or email address.</p><h2>When you contact the school</h2><p>If you choose to call, email or message the school, please share only the information needed for your enquiry. The school will handle that conversation directly.</p><h2>Links to other services</h2><p>Links to WhatsApp, Instagram and Google Maps open services provided by other organisations. Their own privacy choices and terms apply after you follow a link.</p><h2>Your display preference</h2><p>If you choose Light, Night or System mode, that choice is remembered on your device so the website can appear the same way on your next visit.</p><h2>Questions</h2><p>Contact <a href={`mailto:${site.settings.email}`}>{site.settings.email}</a> if you have a question about this notice.</p></div></article>
 </BaseLayout>

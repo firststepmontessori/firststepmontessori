@@ -2,17 +2,19 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import ContactCTA from "../components/ContactCTA.astro";
-import { getDatabase, getPublishedDocument } from "../lib/db";
-const site = await getPublishedDocument(getDatabase(Astro.locals));
+import ConceptIcon from "../components/ConceptIcon.astro";
+import ConceptIllustration from "../components/ConceptIllustration.astro";
+import { getSiteDocument } from "../content/site";
+const site = await getSiteDocument();
 ---
 <BaseLayout site={site} title="Montessori approach" pathname="/montessori-approach">
   <PageHero label="Our approach" title={site.pages.approach.title} introduction={site.pages.approach.introduction} />
   <section class="section surface-section"><div class="shell"><div class="feature-grid">
-    <article class="card feature-card" data-reveal><div class="icon-wrap">□</div><h3>The prepared environment</h3><p>Materials have a clear place and purpose. A well-ordered room helps children orient themselves and act with increasing confidence.</p></article>
-    <article class="card feature-card" data-reveal><div class="icon-wrap">↗</div><h3>Independence</h3><p>Practical opportunities—carrying, pouring, fastening, cleaning and organising—turn “I can do it” into daily experience.</p></article>
-    <article class="card feature-card" data-reveal><div class="icon-wrap">◇</div><h3>Hands-on understanding</h3><p>Children move from concrete experience toward language and abstraction, repeating work until knowledge feels secure.</p></article>
+    <article class="card feature-card" data-reveal><ConceptIcon name="prepared" /><h3>The prepared environment</h3><p>Materials have a clear place and purpose. A well-ordered room helps children orient themselves and act with increasing confidence.</p></article>
+    <article class="card feature-card" data-reveal><ConceptIcon name="independence" /><h3>Independence</h3><p>Practical opportunities—carrying, pouring, fastening, cleaning and organising—turn “I can do it” into daily experience.</p></article>
+    <article class="card feature-card" data-reveal><ConceptIcon name="hands-on" /><h3>Hands-on understanding</h3><p>Children move from concrete experience toward language and abstraction, repeating work until knowledge feels secure.</p></article>
   </div></div></section>
-  <section class="section"><div class="shell split"><div data-reveal><p class="section-label">Practical life</p><h2>Everyday work carries deep developmental value</h2></div><div class="content-stack" data-reveal><p>Activities from everyday life strengthen coordination, sequence, attention and care for the shared environment. They also give children visible, achievable ways to contribute.</p><p>Montessori does not mean unrestricted choice. Adults prepare appropriate options, model their use and protect the concentration of everyone in the room.</p></div></div></section>
+  <section class="section"><div class="shell split"><div data-reveal><p class="section-label">Practical life</p><h2>Everyday work carries deep developmental value</h2><ConceptIllustration name="practical-life" compact /></div><div class="content-stack" data-reveal><p>Activities from everyday life strengthen coordination, sequence, attention and care for the shared environment. They also give children visible, achievable ways to contribute.</p><p>Montessori does not mean unrestricted choice. Adults prepare appropriate options, model their use and protect the concentration of everyone in the room.</p></div></div></section>
   <section class="section surface-section"><div class="narrow"><p class="section-label">A note for families</p><h2>Observe the environment, then ask specific questions</h2><p class="lead">During a visit, notice how materials are arranged, how adults guide children and how movement and quiet work coexist. Ask the school how these principles appear in its actual daily practice.</p></div></section>
   <ContactCTA site={site} title="See the prepared environment for yourself" />
 </BaseLayout>

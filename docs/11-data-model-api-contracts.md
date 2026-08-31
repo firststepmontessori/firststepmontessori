@@ -1,43 +1,43 @@
-# Data model and API contracts
+# Content models and generated-route contracts
 
-- Status: Implemented
-- Audience: Developers, database maintainers and security reviewers
-- Owner: Application maintainer
-- Last updated: 2026-08-30
+- Status: Repository models and routes implemented; runtime APIs removed
+- Audience: Content maintainers, developers and QA
+- Owner: Technical maintainer
+- Last updated: 2026-08-31
 
-## D1 schema
+## School document
 
-`site_drafts` contains exactly one row (`id = 1`) with validated JSON, monotonic version, editor and timestamp, plus the most recently published revision identifier. `site_revisions` contains immutable UUID-keyed documents and unique revision numbers. `audit_log` records actor, action, bounded JSON details and timestamp. See [`migrations/0001_content.sql`](../migrations/0001_content.sql).
+The required `site/school` collection entry contains:
 
-## SiteDocument
+- `settings`: public name, contact channels, address, locality, hours and map link.
+- `pages`: bounded hero/title/introduction copy for six primary pages.
+- `programmes`: exactly Buds, Caterpillar, Cocoon and Butterfly.
+- `announcements`: at most five bounded text announcements.
+- `seo`: title suffix, description and locality terms.
 
-The strict TypeScript/Zod document contains `settings`, `pages`, exactly four `programmes`, up to five `announcements`, and `seo`. Strings are trimmed and length-bounded; emails and URLs are validated. Unknown HTML cannot be inserted because the schema accepts plain strings and templates escape output.
+The collection is stored in `src/content/site/school.md`; schema validation occurs at build time.
 
-## API contracts
+## Journal entry
 
-| Endpoint | Request | Success | Important errors |
-|---|---|---|---|
-| `GET /api/admin/draft` | Access identity | Draft record | 401, 503 |
-| `PUT /api/admin/draft` | `{document, version}` | Updated draft/version | 403, 409, 422, 503 |
-| `POST /api/admin/publish` | `{version}` | `201 {revision}` | 403, 409, 422, 503 |
-| `GET /api/admin/revisions` | Access identity | `{revisions}` newest first | 401, 503 |
-| `POST /api/admin/revisions/:id/restore` | `{version}` | New draft/version | 403, 409, 422, 503 |
+| Field | Contract |
+|---|---|
+| `title` | Required, at most 120 characters |
+| `slug` | Required lowercase letters/numbers with single hyphens; must match filename |
+| `description` | Required, at most 180 characters |
+| `publishedDate` | Required valid date |
+| `updatedDate` | Optional valid date |
+| `author` | Required public display name |
+| `topics` | One to five bounded topic names |
+| `draft` | Excluded from generated public routes when true |
+| `featured` | Editorial flag reserved for listings |
+| `illustration` | Optional approved SVG concept name |
 
-All protected responses use `Cache-Control: no-store`. Mutation requests must be same-origin when an Origin header is present.
+Raw HTML and Markdown images are rejected. Photographs are rejected anywhere in shipped source/public assets.
 
-## State transitions
+## Generated routes
 
-```mermaid
-stateDiagram-v2
-    [*] --> Draft
-    Draft --> Draft: save with matching version
-    Draft --> Conflict: stale expected version
-    Conflict --> Draft: reload latest
-    Draft --> PublishedRevision: publish immutable snapshot
-    PublishedRevision --> RestoredDraft: restore selected snapshot
-    RestoredDraft --> PublishedRevision: review and publish new snapshot
-```
+`getStaticPaths()` generates one article page per published slug and one topic page per derived topic. Pagination pages begin at page 2; `/blog/page/1/` permanently redirects to `/blog/`. RSS and sitemap use the same published-post query, preventing draft leakage.
 
-## Transaction notes
+## API surface
 
-D1 `batch()` groups revision insert, published-pointer update and publish audit. Optimistic draft writes prevent lost updates. A unique revision number prevents publishing the same draft version twice.
+There is no public or administrative JSON API. Content updates are Git commits and pull requests. Contact actions navigate to phone, email, WhatsApp, Instagram or Google Maps rather than submitting data to this project.

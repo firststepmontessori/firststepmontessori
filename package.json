@@ -11,25 +11,20 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:admin:local": "node scripts/test-admin-flow.mjs",
     "lint:docs": "markdownlint-cli2 'README.md' 'docs/**/*.md' 'design/**/*.md'",
     "validate:docs": "node scripts/validate-docs.mjs",
+    "validate:links": "node scripts/validate-links.mjs",
+    "validate:links:external": "node scripts/validate-links.mjs --external",
+    "validate:mermaid": "node scripts/validate-mermaid.mjs",
+    "validate:content": "node scripts/validate-content.mjs",
     "validate:no-photos": "node scripts/validate-no-photos.mjs",
-    "validate": "npm run check && npm run test && npm run lint:docs && npm run validate:docs && npm run validate:no-photos",
-    "cf:typegen": "wrangler types",
-    "db:migrate:local": "wrangler d1 migrations apply first-step-montessori-preview --local",
-    "db:migrate:preview": "wrangler d1 migrations apply first-step-montessori-preview --remote",
-    "deploy:garden": "PUBLIC_SITE_URL=https://first-step-montessori-garden-preview.harshu-1982.workers.dev npm run build:garden && wrangler deploy --env garden --name first-step-montessori-garden-preview",
-    "deploy:geometry": "PUBLIC_SITE_URL=https://first-step-montessori-geometry-preview.harshu-1982.workers.dev npm run build:geometry && wrangler deploy --env geometry --name first-step-montessori-geometry-preview",
-    "deploy:previews": "npm run deploy:garden && npm run deploy:geometry",
+    "validate:static": "node scripts/validate-static-output.mjs",
+    "validate": "npm run check && npm run test && npm run lint:docs && npm run validate:docs && npm run validate:links && npm run validate:mermaid && npm run validate:content && npm run validate:no-photos",
     "build:garden": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=garden SITE_ENV=preview astro build",
     "build:geometry": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=geometry SITE_ENV=preview astro build"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "14.2.5",
-    "@astrojs/preact": "6.0.4",
     "astro": "7.2.9",
-    "preact": "10.29.8",
     "zod": "4.5.4"
   },
   "devDependencies": {
@@ -37,10 +32,11 @@
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.62.1",
     "@types/node": "latest",
+    "jsdom": "^26.1.0",
     "markdownlint-cli2": "latest",
+    "mermaid": "^11.17.2",
     "typescript": "latest",
-    "vitest": "latest",
-    "wrangler": "4.127.1"
+    "vitest": "latest"
   },
   "engines": {
     "node": ">=22.12.0"

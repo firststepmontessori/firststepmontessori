@@ -1,0 +1,31 @@
+---
+import ArticleCard from "../../../components/ArticleCard.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { getPublishedPosts, type BlogEntry } from "../../../content/blog";
+import { getSiteDocument } from "../../../content/site";
+
+export async function getStaticPaths() {
+  const pageSize = 6;
+  const posts = await getPublishedPosts();
+  const pageCount = Math.ceil(posts.length / pageSize);
+  return Array.from({ length: Math.max(0, pageCount - 1) }, (_, index) => {
+    const page = index + 2;
+    return { params: { page: String(page) }, props: { posts: posts.slice((page - 1) * pageSize, page * pageSize), page, pageCount } };
+  });
+}
+
+interface Props { posts: BlogEntry[]; page: number; pageCount: number }
+const { posts, page, pageCount } = Astro.props;
+const site = await getSiteDocument();
+---
+<BaseLayout site={site} title={`Montessori journal — Page ${page}`} description="More notes from First Step Montessori about Montessori education and the early years." pathname={`/blog/page/${page}/`}>
+  <Breadcrumbs items={[{ href: "/", label: "Home" }, { href: "/blog/", label: "Journal" }, { label: `Page ${page}` }]} />
+  <section class="page-hero compact-page-hero"><div class="shell"><h1>Montessori journal</h1><p class="lead">Page {page} of {pageCount}</p></div></section>
+  <section class="section surface-section"><div class="shell article-list">{posts.map((post) => <ArticleCard post={post} />)}</div>
+    <nav class="pagination shell" aria-label="Blog pages">
+      <a class="button button-secondary" href={page === 2 ? "/blog/" : `/blog/page/${page - 1}/`}>Newer articles</a>
+      {page < pageCount && <a class="button button-secondary" href={`/blog/page/${page + 1}/`}>Older articles</a>}
+    </nav>
+  </section>
+</BaseLayout>

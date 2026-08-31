@@ -1,0 +1,22 @@
+---
+import ArticleCard from "../../components/ArticleCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { getPublishedPosts } from "../../content/blog";
+import { getSiteDocument } from "../../content/site";
+
+const site = await getSiteDocument();
+const posts = await getPublishedPosts();
+const pageSize = 6;
+const firstPage = posts.slice(0, pageSize);
+const pageCount = Math.ceil(posts.length / pageSize);
+---
+<BaseLayout site={site} title="Montessori journal" description="Thoughtful notes for families about Montessori education, practical life and the early years." pathname="/blog/">
+  <PageHero label="Montessori journal" title="Ideas for observing, supporting and understanding early learning" introduction="Short, carefully sourced notes from First Step Montessori for families who want to understand the purpose behind the environment." />
+  <section class="section surface-section">
+    <div class="shell article-list">
+      {firstPage.length ? firstPage.map((post) => <ArticleCard post={post} />) : <p class="lead">The first journal note is being prepared.</p>}
+    </div>
+    {pageCount > 1 && <nav class="pagination shell" aria-label="Blog pages"><a class="button button-secondary" href="/blog/page/2/">Older articles</a></nav>}
+  </section>
+</BaseLayout>

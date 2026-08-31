@@ -1,22 +1,22 @@
 # ADR 0001: Use Astro on Cloudflare Workers
 
-- Status: Accepted
+- Status: Superseded by ADR 0007
 - Audience: Technical maintainers and project owner
 - Owner: Solution architect
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Context
 
-The school needs content-first server HTML, very little client JavaScript, strong SEO and a Cloudflare-only operating model with D1 bindings.
+The initial design assumed request-time content stored in D1 and therefore needed an application runtime.
 
 ## Decision
 
-Use Astro with TypeScript and the official Cloudflare adapter in server-output mode. Use Preact only for the protected editor island.
+The project initially used Astro server output, the Cloudflare adapter and a protected Preact editor.
 
 ## Alternatives
 
-Static Astro could be simpler but cannot read published D1 content per request. Next.js provides more application surface than this small site requires. A hand-written Worker would reduce framework code but increase template, routing and maintainability work.
+Static Astro could not read D1 per request under that design. Next.js and a hand-written runtime both added more application surface than the site needed.
 
 ## Consequences
 
-Public pages ship minimal JavaScript and semantic HTML. The team must maintain Astro/adapter compatibility and a Worker runtime. Local binding simulation depends on Wrangler.
+The design worked but created runtime, database, authentication and cost responsibilities. The donor and school later prioritized cost certainty and repository-managed content, so [ADR 0007](0007-use-static-astro-on-cloudflare-pages.md) supersedes it.

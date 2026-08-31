@@ -1,0 +1,2 @@
+# Keep published article links stable. Add old-to-new slug redirects here.
+/blog/page/1/ /blog/ 301

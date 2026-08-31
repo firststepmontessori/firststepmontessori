@@ -7,8 +7,10 @@ const required = [
   "README.md", ...Array.from({ length: 20 }, (_, index) => `${String(index).padStart(2, "0")}-${[
     "implementation-plan", "product-requirements", "research-findings", "content-information-architecture", "brand-design-system", "calm-prepared-garden-theme", "joyful-geometry-theme", "colour-modes-animation", "page-layouts", "high-level-design", "low-level-design", "data-model-api-contracts", "cloudflare-infrastructure", "admin-content-workflow", "seo-local-discovery", "security-privacy-child-safety", "testing-quality-gates", "deployment-operations-handover", "content-verification-checklist", "decisions-assumptions"
   ][index]}.md`),
-  ...Array.from({ length: 6 }, (_, index) => `adr/${String(index + 1).padStart(4, "0")}-${[
-    "use-astro-on-cloudflare-workers", "use-one-codebase-for-two-theme-deployments", "use-d1-and-cloudflare-access-for-admin", "exclude-photography-from-v1", "support-system-light-night-modes", "use-whatsapp-and-call-without-public-form"
+  "20-integrations-deployment-record.md",
+  "21-content-operator-guide.md",
+  ...Array.from({ length: 7 }, (_, index) => `adr/${String(index + 1).padStart(4, "0")}-${[
+    "use-astro-on-cloudflare-workers", "use-one-codebase-for-two-theme-deployments", "use-d1-and-cloudflare-access-for-admin", "exclude-photography-from-v1", "support-system-light-night-modes", "use-whatsapp-and-call-without-public-form", "use-static-astro-on-cloudflare-pages"
   ][index]}.md`)
 ];
 

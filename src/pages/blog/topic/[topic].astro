@@ -1,0 +1,20 @@
+---
+import ArticleCard from "../../../components/ArticleCard.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { getBlogTopics, type BlogEntry } from "../../../content/blog";
+import { getSiteDocument } from "../../../content/site";
+
+export async function getStaticPaths() {
+  return (await getBlogTopics()).map((topic) => ({ params: { topic: topic.slug }, props: topic }));
+}
+
+interface Props { name: string; slug: string; posts: BlogEntry[] }
+const { name, slug, posts } = Astro.props;
+const site = await getSiteDocument();
+---
+<BaseLayout site={site} title={`${name} articles`} description={`First Step Montessori journal notes about ${name.toLowerCase()}.`} pathname={`/blog/topic/${slug}/`}>
+  <Breadcrumbs items={[{ href: "/", label: "Home" }, { href: "/blog/", label: "Journal" }, { label: name }]} />
+  <section class="page-hero compact-page-hero"><div class="shell"><p class="section-label">Journal topic</p><h1>{name}</h1><p class="lead">{posts.length} {posts.length === 1 ? "article" : "articles"}</p></div></section>
+  <section class="section surface-section"><div class="shell article-list">{posts.map((post) => <ArticleCard post={post} />)}</div></section>
+</BaseLayout>
