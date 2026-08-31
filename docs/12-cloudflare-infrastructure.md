@@ -1,6 +1,6 @@
 # Cloudflare infrastructure
 
-- Status: Pages custom subdomains and Email Routing DNS are active; email rule and legacy Worker removal pending
+- Status: Pages custom subdomains and Email Routing DNS are active; legacy application runtime retired; email rule pending
 - Audience: Cloudflare administrators, maintainers and school owner
 - Owner: Infrastructure maintainer
 - Last updated: 2026-08-31
@@ -50,6 +50,6 @@ No Pages Functions, application Workers, D1, KV, R2, Access, Images, deploy hook
 
 ## Legacy resource cutover
 
-Account inventory found the former Workers `first-step-montessori-garden-preview` and `first-step-montessori-geometry-preview`; they remain pending explicit deletion approval. The D1 inventory reported zero databases, so there is no `first-step-montessori-preview` database to export or delete. GitHub inventory found no repository, environment or organization Actions secrets. Both Pages replacements have passed live verification.
+The initial account-level D1 list appeared empty, but the final Worker binding inspection exposed `first-step-montessori-preview`. A full schema-and-data export was downloaded to the gitignored local backup directory and verified before cleanup; it contained the expected legacy tables and zero content rows. On 2026-08-31, `first-step-montessori-garden-preview` and `first-step-montessori-geometry-preview` were deleted, followed by the D1 database. The former Worker URLs return 404 and the final D1 inventory is empty. GitHub has no repository, environment or organization Cloudflare deployment secrets.
 
 Use current [Pages Git integration](https://developers.cloudflare.com/pages/configuration/git-integration/github-integration/), [custom-domain guidance](https://developers.cloudflare.com/pages/configuration/custom-domains/), [branch controls](https://developers.cloudflare.com/pages/configuration/branch-build-controls/) and [Email Routing setup](https://developers.cloudflare.com/email-service/get-started/route-emails/) when provisioning.

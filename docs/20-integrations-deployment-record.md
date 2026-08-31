@@ -1,6 +1,6 @@
 # Integrations and deployment record
 
-- Status: Pages, repository, theme-domain and mail-DNS integrations verified; email rule and legacy Worker deletion pending
+- Status: Pages, repository, theme-domain and mail-DNS integrations verified; legacy runtime retired; email rule pending
 - Audience: Repository administrators, Cloudflare operators and maintainers
 - Owner: Integration maintainer
 - Last updated: 2026-08-31
@@ -18,7 +18,7 @@ flowchart LR
     Geometry --> GeometryURL[joyful.firststepmontessori.com]
     Mail[hello at firststepmontessori.com] -. pending destination verification .-> Route[Cloudflare Email Routing]
     Route -. forward .-> Inbox[Private owner inbox]
-    LegacyWorkers[Two legacy preview Workers] -. pending approved deletion .-> Retirement[Retired resources]
+    LegacyWorkers[Two legacy preview Workers and D1] -->|backup, verify, delete| Retirement[Retired resources]
 ```
 
 ## Repository integration
@@ -37,12 +37,12 @@ flowchart LR
 | Pages `first-step-montessori-garden` | Live at `https://garden.firststepmontessori.com`; Pages fallback retained |
 | Pages `first-step-montessori-geometry` | Live at `https://joyful.firststepmontessori.com`; Pages fallback retained |
 | Email Routing | Domain enabled with MX/SPF/DKIM records; zero routing rules; `hello@firststepmontessori.com` destination verification pending |
-| Worker `first-step-montessori-garden-preview` | Confirmed legacy; pending explicit deletion approval |
-| Worker `first-step-montessori-geometry-preview` | Confirmed legacy; pending explicit deletion approval |
-| D1 databases | Inventory returned zero databases; no action applicable |
+| Worker `first-step-montessori-garden-preview` | Deleted 2026-08-31; former URL returns 404 |
+| Worker `first-step-montessori-geometry-preview` | Deleted 2026-08-31; former URL returns 404 |
+| D1 `first-step-montessori-preview` | Full export verified, then deleted 2026-08-31; final inventory empty |
 | GitHub Actions deployment secrets | None at repository, environment or organization scope |
 
-Fresh browser authorization completed on 2026-08-31. The GitHub App was restricted to the website repository, both exact Pages projects were created, and the account inventory resolved the two legacy Workers. No additional Worker is authorized for deletion.
+Fresh browser and Wrangler authorization completed on 2026-08-31. The GitHub App was restricted to the website repository, both exact Pages projects were created, and the final inventory resolved only the two project Workers and their D1 binding. No other Worker was deleted.
 
 ## Pages build configuration
 
@@ -60,7 +60,9 @@ Both projects connect to `firststepmontessori/firststepmontessori`, build `main`
 - Static output contains no Pages Function/Worker entrypoint, runtime binding or upload endpoint.
 - On 2026-08-31, both custom subdomains became Active with SSL. Home and `/blog/` returned HTTP 200 on both.
 - On 2026-08-31, Email Routing was activated for the apex domain and Cloudflare reported its DNS records Enabled. No routing rule was created and no private destination was recorded in GitHub.
-- Exact Worker deletion time and absence verification must be appended after separate destructive-action approval.
+- The final Worker binding inspection exposed the D1 resource omitted by the earlier account-level list view. The full export is `.local-backups/first-step-montessori-preview-20260831T091340Z.sql`, intentionally excluded from Git; its SHA-256 is `75f1d0135bd109bbabadcf36fdc86c34db54794aeac1dc23b18c646c4bbceab0`.
+- The backup contains the `d1_migrations`, `site_drafts`, `site_revisions` and `audit_log` schemas and zero content-row inserts.
+- Wrangler confirmed both exact Worker deletions and the exact D1 deletion. A final D1 list returned `[]`; both former Worker URLs returned HTTP 404.
 
 ## Domain handover
 

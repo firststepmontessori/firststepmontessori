@@ -1,6 +1,6 @@
 # Deployment, operations and handover
 
-- Status: Static workflow, custom-domain showcases and mail DNS complete; email rule, theme selection and legacy Worker removal pending
+- Status: Static workflow, custom-domain showcases, mail DNS and legacy retirement complete; email rule and theme selection pending
 - Audience: Maintainers, Cloudflare operators and school owner
 - Owner: Operations owner
 - Last updated: 2026-08-31
@@ -24,12 +24,13 @@ Cloudflare configuration belongs in the dashboard and [infrastructure record](12
 ## Legacy cutover and deletion
 
 1. Exact inventory confirmed the two named legacy preview Workers.
-2. D1 inventory reported zero databases; no export or deletion is applicable.
-3. GitHub has no Cloudflare Actions deployment secrets to remove.
-4. Both Pages sites passed acceptance checks and evidence is recorded.
-5. After explicit approval, delete `first-step-montessori-garden-preview` and `first-step-montessori-geometry-preview`.
-6. Do not delete any other Worker.
-7. Confirm the old Worker URLs no longer serve the site and update the integration record.
+2. A final binding inspection found `first-step-montessori-preview`, despite an earlier empty D1 list result.
+3. The full database was exported to a timestamped file under `.local-backups/`, confirmed gitignored, hashed and checked for the expected schemas. It contained zero draft, revision or audit rows.
+4. Both Pages sites and custom subdomains passed acceptance checks.
+5. With explicit approval, only `first-step-montessori-garden-preview` and `first-step-montessori-geometry-preview` were deleted.
+6. The unbound D1 database was then deleted; the final D1 list is empty.
+7. Both former Worker URLs return HTTP 404. No other Worker was deleted.
+8. GitHub has no Cloudflare Actions deployment secrets to remove.
 
 ## Rollback and maintenance
 

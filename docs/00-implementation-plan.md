@@ -1,6 +1,6 @@
 # Implementation plan
 
-- Status: Static migration and Pages deployment complete; legacy Worker removal pending
+- Status: Static migration, Pages deployment and legacy runtime retirement complete
 - Audience: School owner, maintainers and reviewers
 - Owner: Delivery maintainer
 - Last updated: 2026-08-31
@@ -27,4 +27,4 @@ The site includes six school-information pages, three family-facing policy pages
 
 ## Cutover rule
 
-Never delete a live resource before its replacement is independently verified. Both Pages projects have passed live route, metadata, header, journal, mode and 404 checks. Account inventory confirmed that no D1 database and no GitHub deployment secrets exist. The two legacy Workers may be removed only after explicit deletion approval; record the result in [the integration record](20-integrations-deployment-record.md).
+Never delete a live resource before its replacement is independently verified. Both Pages projects passed live route, metadata, header, journal, mode and 404 checks. A final binding-level inspection found the legacy D1 database that the earlier list view had omitted. Its full schema/data export was verified locally, the export contained no content rows, both exact Workers were deleted, and then the database was deleted. The final D1 inventory is empty and both legacy Worker URLs return 404; evidence is recorded in [the integration record](20-integrations-deployment-record.md).
