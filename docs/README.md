@@ -1,6 +1,6 @@
 # First Step Montessori website documentation
 
-- Status: Static implementation deployed to two verified Pages showcases; legacy Worker removal pending
+- Status: Static implementation deployed to two custom-domain theme showcases; email forwarding and legacy Worker removal pending
 - Audience: School owner, content operators, maintainers and reviewers
 - Owner: First Step Montessori website maintainers
 - Last updated: 2026-08-31
@@ -18,8 +18,9 @@
 | Colour mode | System default with Light and Night overrides |
 | Photography | Excluded and enforced by validation |
 | Runtime services | No Workers, Pages Functions, D1, KV, R2 or Access |
-| Domain | Deferred for school selection |
-| Live showcases | [Garden](https://first-step-montessori-garden.pages.dev) and [Geometry](https://first-step-montessori-geometry.pages.dev) |
+| Domain | `firststepmontessori.com`, with temporary theme subdomains |
+| Live showcases | [Garden](https://garden.firststepmontessori.com) and [Joyful Geometry](https://joyful.firststepmontessori.com) |
+| School email | `hello@firststepmontessori.com` planned through Cloudflare Email Routing; destination verification pending |
 | Legacy cutover | Two confirmed preview Workers retained pending explicit deletion approval; no D1 database exists |
 
 ## Reading order
@@ -34,7 +35,7 @@
 8. [High-level design](09-high-level-design.md) and [low-level design](10-low-level-design.md)
 9. [Content schemas and generated routes](11-data-model-api-contracts.md), [Cloudflare infrastructure](12-cloudflare-infrastructure.md) and [content workflow](13-admin-content-workflow.md)
 10. [SEO](14-seo-local-discovery.md), [security and child safety](15-security-privacy-child-safety.md), [quality gates](16-testing-quality-gates.md) and [operations](17-deployment-operations-handover.md)
-11. [Content verification checklist](18-content-verification-checklist.md), [decisions and assumptions](19-decisions-assumptions.md), [integration record](20-integrations-deployment-record.md) and [operator guide](21-content-operator-guide.md)
+11. [Content verification checklist](18-content-verification-checklist.md), [decisions and assumptions](19-decisions-assumptions.md), [integration record](20-integrations-deployment-record.md), [operator guide](21-content-operator-guide.md) and [domain email routing](22-domain-email-routing.md)
 
 ## Architecture decision records
 

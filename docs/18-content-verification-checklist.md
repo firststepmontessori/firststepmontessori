@@ -3,7 +3,7 @@
 - Status: School approval required before production indexing
 - Audience: School owner, content approver and deployment operator
 - Owner: School content owner
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Flyer-derived facts to approve
 
@@ -13,7 +13,8 @@
 | Established year | 2025 | Pending written approval |
 | Head of School | Anupama Prakash Aladakatti | Omitted pending wording and consent |
 | Phone/WhatsApp | +91 9731002324 | Pending live test and approval |
-| Email | `firststepmont2024@gmail.com` | Pending live test and approval |
+| Current email | `firststepmont2024@gmail.com` | Temporary; retain until domain routing passes |
+| Planned public email | `hello@firststepmontessori.com` | Destination verification and live forwarding test pending |
 | Instagram | @first_step_montessori | Pending ownership check |
 | Address | #26, 6th Main, Leela Residency, Vidyaranyapura, Bangalore 560097 | Pending exact formatting and map-pin check |
 | Daycare hours | 9:00 AM–5:00 PM | Pending days/holiday clarification |
@@ -39,7 +40,8 @@
 - [ ] Approve school story and any named team profile.
 - [ ] Approve exact map pin and postal address.
 - [ ] Select Garden or Geometry and approve the final code-native logo treatment.
-- [ ] Select and take ownership of the domain.
+- [x] Register and retain ownership of `firststepmontessori.com`.
+- [ ] Verify the private Email Routing destination, test `hello@firststepmontessori.com`, then update public site content.
 - [ ] Approve privacy, child-safety/media and accessibility statements.
 - [ ] Approve each journal article, its author display name, sources, topics and permanent slug.
 - [ ] Confirm that version one remains entirely photo-free.
