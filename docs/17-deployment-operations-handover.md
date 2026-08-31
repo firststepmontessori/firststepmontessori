@@ -1,6 +1,6 @@
 # Deployment, operations and handover
 
-- Status: Static workflow and Pages showcases complete; legacy Worker removal and production handover pending
+- Status: Static workflow and custom-domain showcases complete; email route, theme selection and legacy Worker removal pending
 - Audience: Maintainers, Cloudflare operators and school owner
 - Owner: Operations owner
 - Last updated: 2026-08-31
@@ -16,7 +16,8 @@ Use Node 24.20 LTS for CI and Cloudflare builds; local maintenance commands requ
 3. `main` is production; `dev` is the only automatic preview branch.
 4. Both use `npm run build`, output `dist`, Node `24.20.0`, project-specific `SITE_THEME`, `SITE_ENV=preview` and their own `PUBLIC_SITE_URL`.
 5. Cloudflare native builds and GitHub validation run independently; neither uses a deployment token.
-6. Live routes, journal, modes, headers, robots, RSS, sitemap policy and custom 404 have passed verification.
+6. `garden.firststepmontessori.com` and `joyful.firststepmontessori.com` are active with SSL and their home and journal routes return HTTP 200.
+7. Both showcases remain noindex until the school selects one theme.
 
 Cloudflare configuration belongs in the dashboard and [infrastructure record](12-cloudflare-infrastructure.md), not repository secrets. Do not create a deploy hook or GitHub API token.
 
@@ -36,4 +37,6 @@ For content/code, revert the merged PR and allow Pages to deploy the revert. For
 
 ## Production handover
 
-After theme and domain selection, keep one Pages project, set the production canonical/indexing environment, attach DNS, validate Search Console and optional privacy-friendly analytics, and disable/delete the unselected showcase. Give the school collaborator access, the operator guide and domain-renewal responsibility. There is no runtime bill to monitor.
+After theme selection, keep one Pages project, attach `firststepmontessori.com` and `www.firststepmontessori.com`, set the production canonical/indexing environment, validate Search Console and optional privacy-friendly analytics, and disable/delete the unselected showcase. Give the school collaborator access, the operator guide and domain-renewal responsibility. There is no application runtime bill to monitor.
+
+Configure the public school email according to [the email-routing runbook](22-domain-email-routing.md). Keep the destination Gmail address out of repository content and operational screenshots. Cloudflare Email Routing handles inbound forwarding only; a later requirement to send as the school address must use an approved outbound mail service or a verified Gmail send-as configuration.

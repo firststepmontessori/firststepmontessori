@@ -1,6 +1,6 @@
 # SEO and local discovery
 
-- Status: Static baseline and journal metadata implemented; domain-dependent work pending
+- Status: Static baseline and journal metadata implemented; final-theme production cutover pending
 - Audience: School owner, content maintainer, SEO and developers
 - Owner: SEO owner
 - Last updated: 2026-08-31
@@ -17,8 +17,8 @@ Use the exact approved school name, address and phone consistently across the si
 
 ## Production checklist
 
-1. Register the domain in school-controlled ownership.
-2. Set the chosen Pages project’s `PUBLIC_SITE_URL` and `SITE_ENV=production`.
+1. Confirm continuing school/donor control and renewal of `firststepmontessori.com`.
+2. Attach the apex and `www` hostnames to the chosen Pages project, then set its `PUBLIC_SITE_URL=https://firststepmontessori.com` and `SITE_ENV=production`.
 3. Verify canonical, robots, sitemap, RSS and JSON-LD on the custom domain.
 4. Verify the Google Business Profile and map pin.
 5. Verify Search Console domain ownership and submit `/sitemap.xml`.

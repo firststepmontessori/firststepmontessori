@@ -1,6 +1,6 @@
 # Integrations and deployment record
 
-- Status: Pages and repository integrations verified; legacy Worker deletion pending explicit approval
+- Status: Pages, repository and theme-domain integrations verified; email route and legacy Worker deletion pending
 - Audience: Repository administrators, Cloudflare operators and maintainers
 - Owner: Integration maintainer
 - Last updated: 2026-08-31
@@ -14,8 +14,10 @@ flowchart LR
     Dev -->|native preview build| Geometry[Geometry Pages project]
     Main[Protected GitHub main] -->|native production build| Garden
     Main -->|native production build| Geometry
-    Garden --> GardenURL[Garden pages.dev]
-    Geometry --> GeometryURL[Geometry pages.dev]
+    Garden --> GardenURL[garden.firststepmontessori.com]
+    Geometry --> GeometryURL[joyful.firststepmontessori.com]
+    Mail[hello at firststepmontessori.com] -. pending destination verification .-> Route[Cloudflare Email Routing]
+    Route -. forward .-> Inbox[Private owner inbox]
     LegacyWorkers[Two legacy preview Workers] -. pending approved deletion .-> Retirement[Retired resources]
 ```
 
@@ -32,8 +34,9 @@ flowchart LR
 
 | Resource | Intended state |
 |---|---|
-| Pages `first-step-montessori-garden` | Live and verified at `https://first-step-montessori-garden.pages.dev` |
-| Pages `first-step-montessori-geometry` | Live and verified at `https://first-step-montessori-geometry.pages.dev` |
+| Pages `first-step-montessori-garden` | Live at `https://garden.firststepmontessori.com`; Pages fallback retained |
+| Pages `first-step-montessori-geometry` | Live at `https://joyful.firststepmontessori.com`; Pages fallback retained |
+| Email Routing | Planned public alias `hello@firststepmontessori.com`; exact private destination and verification pending |
 | Worker `first-step-montessori-garden-preview` | Confirmed legacy; pending explicit deletion approval |
 | Worker `first-step-montessori-geometry-preview` | Confirmed legacy; pending explicit deletion approval |
 | D1 databases | Inventory returned zero databases; no action applicable |
@@ -43,7 +46,7 @@ Fresh browser authorization completed on 2026-08-31. The GitHub App was restrict
 
 ## Pages build configuration
 
-Both projects connect to `firststepmontessori/firststepmontessori`, build `main`, preview only `dev`, run `npm run build` and publish `dist`. Garden uses `SITE_THEME=garden`; Geometry uses `SITE_THEME=geometry`. Both showcase production environments use `SITE_ENV=preview` and their own `PUBLIC_SITE_URL`, keeping them noindex until selection. No deploy hook, Wrangler command, Pages Function, binding or API token is used.
+Both projects connect to `firststepmontessori/firststepmontessori`, build `main`, preview only `dev`, run `npm run build` and publish `dist`. Garden uses `SITE_THEME=garden`; Geometry uses `SITE_THEME=geometry`. Both showcase production environments use `SITE_ENV=preview` and their matching custom subdomain as `PUBLIC_SITE_URL`, keeping them noindex until selection. No deploy hook, Wrangler command, Pages Function, binding or API token is used.
 
 ## Verification evidence
 
@@ -55,8 +58,9 @@ Both projects connect to `firststepmontessori/firststepmontessori`, build `main`
 - System/Light/Night controls worked live; the explicit Night choice persisted across reload and returning to System restored device-following behaviour.
 - Security headers were present, including HSTS, CSP, Permissions Policy, Referrer Policy, nosniff and frame denial.
 - Static output contains no Pages Function/Worker entrypoint, runtime binding or upload endpoint.
+- On 2026-08-31, both custom subdomains became Active with SSL. Home and `/blog/` returned HTTP 200 on both.
 - Exact Worker deletion time and absence verification must be appended after separate destructive-action approval.
 
 ## Domain handover
 
-After theme approval, record the chosen project, custom domain, DNS status, canonical rebuild, Search Console/Business Profile ownership and unselected-project retirement. Do not record registrar passwords, recovery codes or tokens.
+After theme approval, record the chosen project, apex/`www` DNS status, production canonical rebuild, Search Console/Business Profile ownership and unselected-project retirement. Do not record registrar passwords, recovery codes, private forwarding destinations or tokens.
