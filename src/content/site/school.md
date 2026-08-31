@@ -9,7 +9,7 @@ settings:
   address: "#26, 6th Main, Leela Residency, Vidyaranyapura, Bangalore, Karnataka 560097"
   locality: Vidyaranyapura, North Bangalore
   hours: "Daycare: 9:00 AM–5:00 PM"
-  mapUrl: https://www.google.com/maps/search/?api=1&query=First+Step+Montessori+Vidyaranyapura+Bangalore
+  mapUrl: https://maps.app.goo.gl/az5YxfGBkT8gTRne6
 pages:
   home:
     heroTitle: A thoughtful first step into lifelong learning
@@ -56,4 +56,3 @@ seo:
     - daycare Vidyaranyapura
     - Montessori Bangalore 560097
 ---
-

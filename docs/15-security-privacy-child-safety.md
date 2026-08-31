@@ -19,6 +19,8 @@ The website contains no child record, consent record, parent account, enquiry su
 
 No child photograph, stock photograph, generated child, video, gallery placeholder or image upload exists. Validation rejects raster assets in shipped source/public folders and rejects Markdown image syntax. Optional article visuals are approved inline SVG concepts.
 
+The school location opens as an external Google Maps/Street View link; the website does not embed or copy that photographic surface. An exterior school photograph may be added to the owner-controlled Google Business Profile only after confirming that no child or identifying family information is visible. This does not authorize photographs on the website.
+
 Future photography requires a separate decision covering specific revocable guardian consent, purpose, selection, metadata, withdrawal, deletion and third-party sharing. Consent evidence must remain outside the public repository.
 
 ## Secrets and incidents

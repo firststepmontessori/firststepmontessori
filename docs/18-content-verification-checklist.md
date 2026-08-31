@@ -16,7 +16,7 @@
 | Current email | `firststepmont2024@gmail.com` | Temporary; retain until domain routing passes |
 | Planned public email | `hello@firststepmontessori.com` | Destination verification and live forwarding test pending |
 | Instagram | @first_step_montessori | Pending ownership check |
-| Address | #26, 6th Main, Leela Residency, Vidyaranyapura, Bangalore 560097 | Pending exact formatting and map-pin check |
+| Address | #26, 6th Main, Leela Residency, Vidyaranyapura, Bangalore 560097 | Maps/Street View link supplied and opened successfully; postal formatting still pending approval |
 | Daycare hours | 9:00 AM–5:00 PM | Pending days/holiday clarification |
 | Buds | 1.5–2.5 years | Pending approval |
 | Caterpillar | 2.5–3.5 years | Pending approval |
@@ -38,7 +38,8 @@
 - [ ] Approve programme labels, ages and descriptions.
 - [ ] Approve daycare hours, applicable days and safe descriptive copy.
 - [ ] Approve school story and any named team profile.
-- [ ] Approve exact map pin and postal address.
+- [x] Provide and verify the Google Maps/Street View location link.
+- [ ] Approve exact postal-address formatting.
 - [ ] Select Garden or Geometry and approve the final code-native logo treatment.
 - [x] Register and retain ownership of `firststepmontessori.com`.
 - [ ] Verify the private Email Routing destination, test `hello@firststepmontessori.com`, then update public site content.

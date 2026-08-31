@@ -36,7 +36,7 @@ flowchart LR
 |---|---|
 | Pages `first-step-montessori-garden` | Live at `https://garden.firststepmontessori.com`; Pages fallback retained |
 | Pages `first-step-montessori-geometry` | Live at `https://joyful.firststepmontessori.com`; Pages fallback retained |
-| Email Routing | Domain enabled with MX/SPF/DKIM records; zero routing rules; `hello@firststepmontessori.com` destination verification pending |
+| Email Routing | Domain enabled with MX/SPF/DKIM records; owner-confirmed Gmail destination added and Pending verification; zero routing rules |
 | Worker `first-step-montessori-garden-preview` | Deleted 2026-08-31; former URL returns 404 |
 | Worker `first-step-montessori-geometry-preview` | Deleted 2026-08-31; former URL returns 404 |
 | D1 `first-step-montessori-preview` | Full export verified, then deleted 2026-08-31; final inventory empty |
@@ -60,6 +60,8 @@ Both projects connect to `firststepmontessori/firststepmontessori`, build `main`
 - Static output contains no Pages Function/Worker entrypoint, runtime binding or upload endpoint.
 - On 2026-08-31, both custom subdomains became Active with SSL. Home and `/blog/` returned HTTP 200 on both.
 - On 2026-08-31, Email Routing was activated for the apex domain and Cloudflare reported its DNS records Enabled. No routing rule was created and no private destination was recorded in GitHub.
+- On 2026-08-31, the owner-confirmed destination was added to Cloudflare and a verification message was sent. The destination remained Pending at handoff, so `hello@firststepmontessori.com` was not yet created.
+- The supplied Google Maps short link was verified to open Street View at the school coordinates and was added to the shared site content. Street View remains an external link rather than an embedded photographic surface.
 - The final Worker binding inspection exposed the D1 resource omitted by the earlier account-level list view. The full export is `.local-backups/first-step-montessori-preview-20260831T091340Z.sql`, intentionally excluded from Git; its SHA-256 is `75f1d0135bd109bbabadcf36fdc86c34db54794aeac1dc23b18c646c4bbceab0`.
 - The backup contains the `d1_migrations`, `site_drafts`, `site_revisions` and `audit_log` schemas and zero content-row inserts.
 - Wrangler confirmed both exact Worker deletions and the exact D1 deletion. A final D1 list returned `[]`; both former Worker URLs returned HTTP 404.
