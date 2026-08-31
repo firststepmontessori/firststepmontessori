@@ -1,6 +1,6 @@
 # First Step Montessori website documentation
 
-- Status: Static implementation complete on `dev`; Pages provisioning and legacy-resource cutover pending
+- Status: Static implementation deployed to two verified Pages showcases; legacy Worker removal pending
 - Audience: School owner, content operators, maintainers and reviewers
 - Owner: First Step Montessori website maintainers
 - Last updated: 2026-08-31
@@ -19,7 +19,8 @@
 | Photography | Excluded and enforced by validation |
 | Runtime services | No Workers, Pages Functions, D1, KV, R2 or Access |
 | Domain | Deferred for school selection |
-| Legacy cutover | Existing Workers/D1 retained only until Pages verification |
+| Live showcases | [Garden](https://first-step-montessori-garden.pages.dev) and [Geometry](https://first-step-montessori-geometry.pages.dev) |
+| Legacy cutover | Two confirmed preview Workers retained pending explicit deletion approval; no D1 database exists |
 
 ## Reading order
 

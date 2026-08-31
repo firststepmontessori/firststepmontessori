@@ -1,6 +1,6 @@
 # Decisions and assumptions
 
-- Status: Static architecture decisions approved; external setup and school approvals pending
+- Status: Static architecture deployed; school content, theme and domain approvals pending
 - Audience: School owner, maintainers and reviewers
 - Owner: Architecture owner
 - Last updated: 2026-08-31
@@ -23,7 +23,7 @@
 - Content/build frequency remains comfortably below Pages Free-plan limits.
 - The GitHub organization can authorize the Cloudflare GitHub App.
 - The school or donor will own and renew the domain.
-- The raw D1 export remains local and uncommitted during cutover.
+- Cloudflare account inventory remains available when platform changes are required.
 
 ## Deferred decisions
 
