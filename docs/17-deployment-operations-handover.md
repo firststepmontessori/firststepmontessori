@@ -1,6 +1,6 @@
 # Deployment, operations and handover
 
-- Status: Garden apex configuration applied; native rebuild and certificate verification in progress; email rule pending
+- Status: Garden production cutover complete; search-platform ownership and email rule pending
 - Audience: Maintainers, Cloudflare operators and school owner
 - Owner: Operations owner
 - Last updated: 2026-08-31
@@ -16,8 +16,9 @@ Use Node 24.20 LTS for CI and Cloudflare builds; local maintenance commands requ
 3. `main` is production; `dev` is the only automatic preview branch.
 4. Both use `npm run build`, output `dist`, Node `24.20.0` and project-specific `SITE_THEME`. Garden production uses `SITE_ENV=production` with the apex origin; Geometry production remains a noindex showcase.
 5. Cloudflare native builds and GitHub validation run independently; neither uses a deployment token.
-6. `garden.firststepmontessori.com` and `joyful.firststepmontessori.com` are active with SSL and their home and journal routes return HTTP 200.
+6. `firststepmontessori.com` and `joyful.firststepmontessori.com` are active with SSL. The former Garden hostname redirects to the apex.
 7. Garden is selected for production. Geometry and every `dev` branch deployment remain noindex.
+8. `www`, the former Garden hostname and the Garden Pages fallback permanently redirect to the equivalent apex path while preserving queries.
 
 Cloudflare configuration belongs in the dashboard and [infrastructure record](12-cloudflare-infrastructure.md), not repository secrets. Do not create a deploy hook or GitHub API token.
 
@@ -38,6 +39,6 @@ For content/code, revert the merged PR and allow Pages to deploy the revert. For
 
 ## Production handover
 
-Attach `firststepmontessori.com` and `www.firststepmontessori.com` to Garden, set the apex canonical/indexing environment, add permanent hostname redirects, and validate Search Console and optional privacy-friendly analytics. Keep Geometry only as a noindex showcase until comparison is no longer needed, then disable/delete it. Give the school collaborator access, the operator guide and domain-renewal responsibility. There is no application runtime bill to monitor.
+The Garden apex, SSL, production canonical/indexing environment and permanent hostname redirects are complete. Remaining launch ownership tasks are Search Console verification, Google Business Profile verification and any separately approved privacy-friendly analytics. Keep Geometry only as a noindex showcase until comparison is no longer needed, then disable/delete it. Give the school collaborator access, the operator guide and domain-renewal responsibility. There is no application runtime bill to monitor.
 
 Configure the public school email according to [the email-routing runbook](22-domain-email-routing.md). Keep the destination Gmail address out of repository content and operational screenshots. Cloudflare Email Routing handles inbound forwarding only; a later requirement to send as the school address must use an approved outbound mail service or a verified Gmail send-as configuration.

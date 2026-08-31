@@ -1,6 +1,6 @@
 # SEO and local discovery
 
-- Status: Garden selected; production SEO contract implemented and cutover verification pending
+- Status: Garden production SEO and canonical-host cutover verified; search-platform ownership pending
 - Audience: School owner, content maintainer, SEO and developers
 - Owner: SEO owner
 - Last updated: 2026-08-31
@@ -19,12 +19,12 @@ Use the exact approved school name, address and phone consistently across the si
 
 ## Production checklist
 
-1. Confirm continuing school/donor control and renewal of `firststepmontessori.com`.
-2. Attach the apex and `www` hostnames to the Garden Pages project, then set its `PUBLIC_SITE_URL=https://firststepmontessori.com` and `SITE_ENV=production`.
-3. Verify canonical, robots, sitemap, RSS and JSON-LD on the custom domain.
-4. Verify the Google Business Profile and map pin.
-5. Verify Search Console domain ownership and submit `/sitemap.xml`.
-6. Confirm `www`, Garden showcase and Garden `pages.dev` URLs permanently redirect to the apex without losing paths or queries.
-7. Inspect all primary and journal URLs and monitor Core Web Vitals.
+1. Completed: continuing school/donor control and renewal responsibility for `firststepmontessori.com` is recorded.
+2. Completed: the apex and `www` hostnames point to Garden, whose production build uses `PUBLIC_SITE_URL=https://firststepmontessori.com` and `SITE_ENV=production`.
+3. Completed: the live apex returns Garden HTML with `index,follow`, apex canonicals, `WebSite`, `EducationalOrganization` and `LocalBusiness` JSON-LD; `/robots.txt`, `/sitemap.xml` and `/blog/rss.xml` use the apex origin.
+4. Completed: `www`, the former Garden showcase hostname and the Garden `pages.dev` fallback return HTTP 301 to the matching apex path and preserve query strings.
+5. Pending owner action: claim or verify the Google Business Profile and confirm the map pin.
+6. Pending owner action: verify Search Console domain ownership and submit `https://firststepmontessori.com/sitemap.xml`.
+7. Ongoing: inspect primary and journal URLs after releases and monitor Core Web Vitals.
 
 Follow [Google business-detail guidance](https://developers.google.com/search/docs/appearance/establish-business-details) and [LocalBusiness structured-data documentation](https://developers.google.com/search/docs/appearance/structured-data/local-business).
