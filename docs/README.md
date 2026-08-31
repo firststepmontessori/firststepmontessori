@@ -38,6 +38,7 @@
 10. [SEO](14-seo-local-discovery.md), [security and child safety](15-security-privacy-child-safety.md), [quality gates](16-testing-quality-gates.md) and [operations](17-deployment-operations-handover.md)
 11. [Content verification checklist](18-content-verification-checklist.md) and [decisions and assumptions](19-decisions-assumptions.md)
 12. [Integration and deployment record](20-integrations-deployment-record.md)
+13. [Content operator guide](21-content-operator-guide.md)
 
 ## Architecture decision records
 

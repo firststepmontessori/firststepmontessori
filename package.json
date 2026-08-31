@@ -16,6 +16,7 @@
     "validate:docs": "node scripts/validate-docs.mjs",
     "validate:content": "node scripts/validate-content.mjs",
     "validate:no-photos": "node scripts/validate-no-photos.mjs",
+    "validate:static": "node scripts/validate-static-output.mjs",
     "validate": "npm run check && npm run test && npm run lint:docs && npm run validate:docs && npm run validate:content && npm run validate:no-photos",
     "build:garden": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=garden SITE_ENV=preview astro build",
     "build:geometry": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=geometry SITE_ENV=preview astro build"
