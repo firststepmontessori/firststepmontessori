@@ -1,6 +1,6 @@
 # First Step Montessori website documentation
 
-- Status: Static implementation deployed to two custom-domain theme showcases; email forwarding and legacy Worker removal pending
+- Status: Static implementation deployed to two custom-domain theme showcases; email destination/rule and legacy Worker removal pending
 - Audience: School owner, content operators, maintainers and reviewers
 - Owner: First Step Montessori website maintainers
 - Last updated: 2026-08-31
@@ -20,7 +20,7 @@
 | Runtime services | No Workers, Pages Functions, D1, KV, R2 or Access |
 | Domain | `firststepmontessori.com`, with temporary theme subdomains |
 | Live showcases | [Garden](https://garden.firststepmontessori.com) and [Joyful Geometry](https://joyful.firststepmontessori.com) |
-| School email | `hello@firststepmontessori.com` planned through Cloudflare Email Routing; destination verification pending |
+| School email | Email Routing DNS enabled; `hello@firststepmontessori.com` destination verification and routing rule pending |
 | Legacy cutover | Two confirmed preview Workers retained pending explicit deletion approval; no D1 database exists |
 
 ## Reading order
