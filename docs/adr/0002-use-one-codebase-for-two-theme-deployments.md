@@ -3,7 +3,7 @@
 - Status: Accepted
 - Audience: Project owner, designers and developers
 - Owner: Solution architect
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Context
 
@@ -11,7 +11,7 @@ The school should compare Calm Prepared Garden and Joyful Geometry with identica
 
 ## Decision
 
-Use a compile-time `SITE_THEME` value to select CSS tokens and abstract hero motifs. Build two noindex preview Workers from one repository and shared D1 preview database. Promote only the selected theme to production.
+Use a compile-time `SITE_THEME` value to select CSS tokens and abstract motifs. Build two noindex Cloudflare Pages projects from one repository and identical Git-managed content. Promote only the selected theme to production.
 
 ## Alternatives
 
@@ -19,4 +19,4 @@ A runtime theme picker would expose an unnecessary brand decision to visitors. T
 
 ## Consequences
 
-Both previews remain behaviorally identical and cheap to maintain. QA must cover both builds and colour modes. Production has one coherent identity.
+Both previews remain behaviorally identical and have no request-time runtime. QA must cover both static builds and colour modes. Production has one coherent identity.

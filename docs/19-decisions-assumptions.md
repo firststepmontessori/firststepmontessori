@@ -1,48 +1,39 @@
 # Decisions and assumptions
 
-- Status: Active decision register
-- Audience: School owner, product owner and technical maintainers
-- Owner: Project owner
-- Last updated: 2026-08-30
+- Status: Static architecture decisions approved; external setup and school approvals pending
+- Audience: School owner, maintainers and reviewers
+- Owner: Architecture owner
+- Last updated: 2026-08-31
 
-## Confirmed decisions
+## Approved decisions
 
-- Astro with TypeScript runs on Cloudflare Workers.
-- One codebase compiles into Garden and Geometry previews; only one becomes production.
-- Preact is limited to the protected admin island.
-- D1 stores bounded JSON drafts, immutable revisions and audit records.
-- Cloudflare Access protects staff routes.
-- System is the default colour preference with local Light/Night overrides.
-- Animation is subtle, non-blocking and reduced-motion safe.
-- Version one contains no photography, media placeholders or upload path.
-- Parents contact the school through direct links, not a public form.
-- Preview deployments never enter search indexes.
-- The two preview Workers are deployed independently and share one migrated
-  APAC preview D1 database.
-- Preview deployment scripts pass explicit Worker names because Astro redirects
-  Wrangler to a generated deployment configuration.
+- Astro and TypeScript generate fully static output.
+- Cloudflare Pages native Git integration builds and deploys; GitHub Actions validates only.
+- GitHub Markdown/YAML replaces the custom admin, D1, Access and runtime APIs.
+- `dev` is the editing/preview branch; protected `main` is production.
+- Two Pages projects use one codebase and separate compile-time theme values.
+- Journal articles have schema-validated permanent URLs, topics, RSS and approved SVG illustrations.
+- System is the default colour mode; explicit Light/Night choices stay local.
+- Contact remains direct; there is no public form.
+- Photography remains excluded from v1.
 
-## Working assumptions
+## Assumptions
 
-- Flyer contact details and programme age bands are plausible but not production-approved.
-- Daycare hours refer to 9 AM–5 PM but operating days and exceptions are unknown.
-- English is the only version-one language.
-- Traffic and editing frequency are modest enough for Workers and D1 standard limits.
-- The donor's Cloudflare account hosts the previews; a school-controlled
-  identity and final ownership model will be available before handover.
+- A small number of operators can use GitHub with the documented workflow.
+- Content/build frequency remains comfortably below Pages Free-plan limits.
+- The GitHub organization can authorize the Cloudflare GitHub App.
+- The school or donor will own and renew the domain.
+- The raw D1 export remains local and uncommitted during cutover.
 
 ## Deferred decisions
 
-- Final domain and production theme.
-- Whether the flyer logo should be traced or the new code-native mark adopted.
-- Approved founder/team story and any Kuwait history.
-- Google Business Profile ownership and final map pin.
-- Cloudflare Web Analytics token and production caching policy.
-- Cloudflare Zero Trust plan activation and the named staff Access allowlist.
-- Whether to install the Cloudflare GitHub App for automatic preview builds or
-  keep reviewed manual Wrangler deployments.
-- Any future multilingual content, public form, media or parent services.
+- Final school facts, named profiles and programme wording.
+- Chosen Garden/Geometry production identity.
+- Domain name, registrar ownership and launch date.
+- Google Business Profile/Search Console ownership.
+- Whether to enable Cloudflare Web Analytics.
+- Any future photography or alternate content editor; each requires a new review.
 
-## Constraints
+## Known constraints
 
-No credentials or private identity list enters Git. Generated design boards are non-authoritative. Public content must not expose child or parent information. Any future photography requires a new ADR, privacy review and explicit consent workflow; it is not a routine content edit.
+A content change requires a Git commit and Pages build. There is no instant browser admin or runtime preview. GitHub and Cloudflare account availability are external dependencies for publishing, while the already deployed static site remains unaffected by content-authoring downtime.

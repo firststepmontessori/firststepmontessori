@@ -1,37 +1,34 @@
 # Product requirements
 
-- Status: Implemented baseline
-- Audience: School approver, product owner, designer and developers
-- Owner: Website product owner
-- Last updated: 2026-08-30
+- Status: Static v1 requirements implemented; school facts and production domain pending
+- Audience: School owner, product, design, engineering and QA
+- Owner: Product owner
+- Last updated: 2026-08-31
 
-## Users and needs
+## Goal and audience
 
-Primary users are parents or guardians considering early education or daycare near Vidyaranyapura. They need a quick understanding of the school, Montessori approach, age groups, daycare availability, location and a direct way to arrange a visit. Secondary users are approved school staff who need to update bounded factual copy without modifying design or infrastructure.
+Help prospective parents in Vidyaranyapura understand the school, Montessori approach, programmes, daycare and visit process. Give approved operators a low-cost, auditable publishing workflow through GitHub.
 
 ## Functional requirements
 
-- Render Home, About, Montessori Approach, Programmes, Daycare and Admissions & Contact as semantic server-rendered pages.
+- Prebuild Home, About, Montessori Approach, Programmes, Daycare and Admissions & Contact as semantic HTML.
 - Provide Privacy, Child Safety & Media, Accessibility and custom 404 pages.
-- Offer WhatsApp, telephone, email, Instagram and Google Maps links without collecting public form data.
-- Build Garden and Geometry deployments from one shared content model.
-- Default to device colour mode; persist explicit Light/Night/System selection locally.
-- Provide a protected editor for contact details, bounded copy, programmes, announcements and SEO defaults.
-- Prevent stale draft overwrites, publish immutable revisions and restore old revisions to a new draft.
-- Keep preview deployments and all admin routes out of search indexes.
-
-## Non-functional requirements
-
-- WCAG 2.2 AA target, keyboard usability, visible focus and reduced-motion behavior.
-- Lighthouse mobile target of at least 95 in Performance, Accessibility, Best Practices and SEO.
-- Core Web Vitals targets: LCP at most 2.5 seconds, CLS below 0.1 and INP below 200 milliseconds at the 75th percentile when sufficient field data exists.
-- Public content remains useful when JavaScript is unavailable; only mode persistence, entrance enhancement and admin editing require JavaScript.
-- No secret, allowlist, Cloudflare account ID or consent record is committed.
+- Generate a journal index, permanent article URLs, topic archives, pagination, RSS and sitemap entries from Markdown.
+- Offer WhatsApp, call, email, Instagram and map links without collecting enquiries.
+- Build Garden and Geometry from the same content using `SITE_THEME`.
+- Default to device colour mode and persist explicit Light/Night choices locally.
+- Keep meaningful content usable without JavaScript.
+- Validate content before deployment and publish only through reviewed `dev` to `main` pull requests.
 
 ## Exclusions
 
-No photography, child imagery, gallery, media placeholder, upload endpoint, enquiry form, parent portal, blog, fees, online application, testimonial, accreditation claim or founder-employer claim is included.
+No photographs, generated children, gallery, image upload, form, parent portal, fees, payments, attendance, live seat availability, runtime database, custom admin, Pages Function, Worker or third-party CMS.
 
 ## Success criteria
 
-Parents can understand the offer and contact the school within two minutes on a mobile device. School staff can safely save, preview, publish and restore content. Both visual themes behave identically, and deployment can move to production without an architecture change.
+- Both themes contain identical facts and routes.
+- Preview builds are `noindex,nofollow`; production has canonical metadata, structured data, sitemap and RSS.
+- WCAG 2.2 AA automated checks, keyboard operation and reduced-motion behavior pass.
+- Mobile Lighthouse targets at least 95 in Performance, Accessibility, Best Practices and SEO.
+- Public routes remain useful with JavaScript disabled.
+- Normal hosting and content publication require no paid runtime service.

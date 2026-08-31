@@ -7,7 +7,7 @@
 
 ## Resolution model
 
-The anonymous preference key is `fsm:colour-mode:v1`. Missing or invalid values resolve to System. Explicit Light or Night overrides remain until changed. System responds live to `prefers-color-scheme` changes. Nothing is written to D1 or transmitted to the server.
+The anonymous preference key is `fsm:colour-mode:v1`. Missing or invalid values resolve to System. Explicit Light or Night overrides remain until changed. System responds live to `prefers-color-scheme` changes. The preference stays only in the visitor’s browser.
 
 ```mermaid
 flowchart TD

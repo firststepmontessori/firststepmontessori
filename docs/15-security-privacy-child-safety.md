@@ -1,38 +1,26 @@
 # Security, privacy and child safety
 
-- Status: Public preview controls verified; Cloudflare Access activation pending
-- Audience: School owner, security reviewer, operators and developers
+- Status: Static controls implemented; remote headers and branch policy require Pages verification
+- Audience: School owner, maintainers, security reviewers and content operators
 - Owner: Security and privacy owner
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
-## Threat controls
+## Reduced attack surface
 
-Cloudflare terminates requests and provides network protection. Access authenticates staff before admin content reaches the Worker. The application reads the Access-provided identity, rejects missing identities, enforces same-origin writes, validates strict JSON schemas, uses bound prepared statements, escapes template content, emits restrictive security headers and disables admin caching/indexing.
+The public site serves prebuilt files and accepts no requests that change state. There is no login, session, database, form, upload, API or server-side application. GitHub authentication and repository permissions control content changes; `main` must require reviewed pull requests and passing checks.
 
-## Security headers
-
-Middleware sets Content Security Policy, Permissions Policy, Referrer Policy, `nosniff`, frame denial and Cross-Origin Opener Policy. CSP permits only same-origin scripts/connections/images plus Google-hosted fonts; frame ancestors are denied. Review the policy if maps are ever embedded rather than linked.
+Pages applies the committed Content Security Policy, frame denial, content-type protection, referrer policy, permissions policy, HSTS and immutable hashed-asset caching from `public/_headers`. Inline code is limited to the colour-mode bootstrap, enhancement script and JSON-LD; no user content can inject HTML.
 
 ## Data minimisation
 
-There is no public form, parent account, marketing cookie, advertising pixel, child record, consent record or media database. The browser stores only a versioned colour preference. Admin audit records contain staff identity, action, bounded details and timestamp.
+The website contains no child record, consent record, parent account, enquiry submission, advertising pixel or marketing cookie. The only local preference is the anonymous Light/Night/System value stored on the visitor’s device. Direct contact links hand the conversation to the chosen service.
 
-## No-photo enforcement
+## Media boundary
 
-The public source and asset directories contain no raster images or upload surfaces. `npm run validate:no-photos` enforces this boundary. Flyer scans and design-board PNGs remain outside shipped public assets. No child name from the donor conversation appears in source or documentation.
+No child photograph, stock photograph, generated child, video, gallery placeholder or image upload exists. Validation rejects raster assets in shipped source/public folders and rejects Markdown image syntax. Optional article visuals are approved inline SVG concepts.
 
-## Access and secrets
+Future photography requires a separate decision covering specific revocable guardian consent, purpose, selection, metadata, withdrawal, deletion and third-party sharing. Consent evidence must remain outside the public repository.
 
-Private allowlists, tokens, account IDs, Access credentials and environment secrets belong in Cloudflare/CI configuration, not Git. Access policies should grant the minimum number of named staff, require strong identity-provider authentication and be reviewed when a staff member leaves.
+## Secrets and incidents
 
-The deployed preview Workers reject `/admin` and `/api/admin` requests that do
-not carry a Cloudflare-provided identity. Ordinary unauthenticated requests and
-requests attempting to forge the identity header were verified to return
-`401`. The Cloudflare account still requires Zero Trust plan activation before
-the intended named-user Access applications can be created. Until then, the
-editor is intentionally unavailable rather than exposed with a development
-bypass.
-
-## Incident response
-
-For suspected compromise: disable the Access application or affected identity, roll back the Worker, rotate relevant credentials, inspect audit/Cloudflare logs, preserve evidence and notify the school owner. A child-safety concern receives priority over marketing continuity.
+Pages Git integration removes Cloudflare deployment tokens from GitHub. Do not commit credentials, account identifiers, private allowlists or personal data. If unauthorized content is published, disable automatic deployment if necessary, revert through a reviewed PR, preserve Git history, rotate any exposed credential and notify the school owner. Child-safety concerns take priority over availability.

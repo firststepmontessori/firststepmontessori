@@ -41,4 +41,5 @@
 - [ ] Select Garden or Geometry and approve the final code-native logo treatment.
 - [ ] Select and take ownership of the domain.
 - [ ] Approve privacy, child-safety/media and accessibility statements.
+- [ ] Approve each journal article, its author display name, sources, topics and permanent slug.
 - [ ] Confirm that version one remains entirely photo-free.

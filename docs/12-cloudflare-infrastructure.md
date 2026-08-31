@@ -1,90 +1,49 @@
 # Cloudflare infrastructure
 
-- Status: Preview Workers and D1 provisioned; Access and production resources pending
-- Audience: Cloudflare administrators, DevOps maintainers and school owner
+- Status: Pages configuration defined; account authorization and provisioning pending
+- Audience: Cloudflare administrators, maintainers and school owner
 - Owner: Infrastructure maintainer
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Deployment topology
 
 ```mermaid
 flowchart TB
-    Repo[GitHub repository] --> BuildG[SITE_THEME=garden preview build]
-    Repo --> BuildJ[SITE_THEME=geometry preview build]
-    BuildG --> WG[Garden preview Worker]
-    BuildJ --> WJ[Geometry preview Worker]
-    WG --> PreviewDB[(Shared preview D1)]
-    WJ --> PreviewDB
-    Access[Cloudflare Access policy] --> WG
-    Access --> WJ
-    Repo --> BuildP[Chosen theme production build]
-    BuildP --> WP[Production Worker + future custom domain]
-    WP --> ProdDB[(Production D1)]
-    DNS[Cloudflare DNS] --> WP
-    Analytics[Cloudflare Web Analytics] -. optional production beacon .-> WP
+    Repo[GitHub firststepmontessori repository]
+    Repo -->|main and dev| GardenBuild[Pages Git build SITE_THEME=garden]
+    Repo -->|main and dev| GeometryBuild[Pages Git build SITE_THEME=geometry]
+    GardenBuild --> Garden[first-step-montessori-garden.pages.dev]
+    GeometryBuild --> Geometry[first-step-montessori-geometry.pages.dev]
+    Domain[Future school domain] -. after selection .-> Chosen[Chosen Pages project]
+    Chosen --> Edge[Cloudflare static edge delivery]
+    Browser[Parent browser] --> Edge
 ```
 
-## Resources
+## Pages projects
 
-- Garden preview Worker: `first-step-montessori-garden-preview` at
-  `https://first-step-montessori-garden-preview.harshu-1982.workers.dev`.
-- Geometry preview Worker: `first-step-montessori-geometry-preview` at
-  `https://first-step-montessori-geometry-preview.harshu-1982.workers.dev`.
-- Shared APAC preview D1 database: `first-step-montessori-preview`, binding
-  `DB`; migration `0001_content.sql` is applied remotely.
-- One future production Worker and separate production D1 database.
-- Workers Static Assets for compiled CSS and browser code.
-- Future Cloudflare Access applications/policies covering `/admin*` and
-  `/api/admin*` on every hostname. The account currently requires Zero Trust
-  plan activation before an application can be created.
-- Cloudflare DNS and Web Analytics only after a domain is chosen.
+| Setting | Garden | Geometry |
+|---|---|---|
+| Project | `first-step-montessori-garden` | `first-step-montessori-geometry` |
+| Repository | `firststepmontessori/firststepmontessori` | Same |
+| Production branch | `main` | `main` |
+| Preview branch | `dev` | `dev` |
+| Build command | `npm run build` | `npm run build` |
+| Output directory | `dist` | `dist` |
+| `SITE_THEME` | `garden` | `geometry` |
+| `SITE_ENV` before selection | `preview` | `preview` |
 
-Astro sessions are explicitly disabled because the application has no session state, avoiding an unnecessary KV namespace. Image handling is set to passthrough because version one ships no photographic assets, avoiding an unnecessary Cloudflare Images binding.
+Set `PUBLIC_SITE_URL` to each Pages origin during showcase. After selection, set the chosen production environment to `SITE_ENV=production` and the approved custom-domain origin; keep branch previews as Preview/noindex.
 
-## Current request flow
+## Interconnection
 
-```mermaid
-flowchart LR
-    Parent[Prospective parent] --> G[Garden preview Worker]
-    Parent --> J[Geometry preview Worker]
-    G --> DB[(Shared preview D1)]
-    J --> DB
-    Staff[Future approved staff] --> Access[Cloudflare Access pending activation]
-    Access --> Admin[Admin and API paths]
-    Admin --> DB
-```
+The Cloudflare Workers & Pages GitHub App reads the authorized repository and starts builds on configured branches. GitHub Actions independently validates the same commit but does not deploy and stores no Cloudflare token. Pages reads `_headers` and `_redirects` from the build output. DNS will point the future domain to the selected Pages project.
 
-Both public previews are live and intentionally return `noindex,nofollow` plus
-a `robots.txt` policy that disallows crawling. Unauthenticated admin requests
-return `401`; a live forged-header test also returned `401` on both Workers.
+## Services deliberately absent
 
-## Configuration safety
+No Pages Functions, Workers, D1, KV, R2, Access, Images, deploy hooks or runtime secrets are required. Optional Web Analytics may be enabled only after school/domain approval.
 
-[`wrangler.jsonc`](../wrangler.jsonc) is the source of truth for Worker names,
-environment variables and D1 bindings. The preview D1 resource identifier is
-committed because it is a non-secret binding identifier; possession of it does
-not grant database access. Cloudflare account IDs, OAuth/API tokens, private
-email allowlists, Access credentials and analytics tokens must remain in
-Cloudflare or approved secret storage.
+## Legacy resource cutover
 
-Astro emits a redirected deployment configuration under `dist/server`. A plain
-`wrangler deploy --env ...` therefore used the top-level Worker name during the
-first provisioning attempt. The checked-in deployment scripts explicitly pass
-`--name` so Garden and Geometry cannot overwrite one another. The accidental
-top-level Worker created during discovery was deleted after both named previews
-were verified.
+The former Workers `first-step-montessori-garden-preview` and `first-step-montessori-geometry-preview`, plus D1 `first-step-montessori-preview`, remain only until Pages verification. Reauthorize Cloudflare, inventory exact IDs, export D1 locally, verify Pages, delete Workers, delete D1, remove GitHub deployment secrets and record the results. The local Cloudflare CLI session was expired at the start of migration.
 
-## Provisioning sequence
-
-1. Completed: authenticate Wrangler using the owner's local OAuth session.
-2. Completed: create the shared preview D1 database in APAC and bind both
-   preview environments.
-3. Completed: apply migration `0001_content.sql` remotely.
-4. Completed: deploy and verify both named preview Workers.
-5. Pending owner authorization: activate a Cloudflare Zero Trust plan and
-   configure named-user Access policies.
-6. Pending school decision: choose the production theme and domain.
-7. Pending production provisioning: create a separate production D1 database,
-   deploy the selected Worker and attach DNS.
-
-Use the current [Astro Workers guide](https://developers.cloudflare.com/workers/framework-guides/web-apps/astro/) and [D1 Worker API](https://developers.cloudflare.com/d1/worker-api/) during provisioning because platform syntax and limits can change.
+Use current [Pages Git integration](https://developers.cloudflare.com/pages/configuration/git-integration/github-integration/) and [branch controls](https://developers.cloudflare.com/pages/configuration/branch-build-controls/) when provisioning.

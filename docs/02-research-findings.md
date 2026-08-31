@@ -1,36 +1,32 @@
 # Research findings
 
-- Status: Current as of the last-updated date; re-check before production launch
-- Audience: Product owner, school approver, designer, SEO and technical maintainers
+- Status: Updated for the static Pages decision; re-check platform limits before production launch
+- Audience: School approver, design, SEO and technical maintainers
 - Owner: Website research owner
-- Last updated: 2026-08-30
+- Last updated: 2026-08-31
 
 ## Flyer findings
 
-Two supplied flyers in `images/` were treated as source material, not publish-ready web assets. They indicate the name First Step Montessori; telephone +91 9731002324; email `firststepmont2024@gmail.com`; Instagram `first_step_montessori`; address at #26, 6th Main, Leela Residency, Vidyaranyapura, Bangalore; daycare hours 9 AM–5 PM; and programme labels/ages Buds 1.5–2.5, Caterpillar 2.5–3.5, Cocoon 3.5–4.5 and Butterfly 4.5–5.5. Each still requires school sign-off in [the verification checklist](18-content-verification-checklist.md).
+The two scans in `images/` are source material, not public assets. They indicate the school name, phone, email, Instagram, Vidyaranyapura address, daycare hours and Buds/Caterpillar/Cocoon/Butterfly age ranges. Each value remains subject to [school verification](18-content-verification-checklist.md). The flyers name a Head of School; no profile or Kuwait employment claim is published without direct approval and evidence. Child details supplied conversationally are irrelevant and are not stored in the site.
 
-The flyers name Anupama Prakash Aladakatti as Head of School. No public team profile is published until exact wording and permission are confirmed. The website does not publish the child details supplied conversationally; they are irrelevant to the public school website.
+## Reference sites and visual response
 
-## Reference-site review
+- [Argan Bedaya](https://arganbedaya.com/early-childhood-center/) demonstrates calm hierarchy but depends on photography.
+- [The Montessori Studio](https://www.themontessoristudio.com/) has concise actions and strong presence, but its photographic treatment conflicts with the current media rule.
+- [Gulf Montessori](https://gulfmontessorikw.com/) communicates programme information clearly but does not establish any founder-employment connection.
 
-- [Argan Bedaya Early Childhood Center](https://arganbedaya.com/early-childhood-center/) provides a calm institutional hierarchy and clear educational sections, but relies heavily on photography.
-- [The Montessori Studio](https://www.themontessoristudio.com/) has strong visual presence and concise calls to action, but its dark photographic hero and overlay treatment are less appropriate for the no-photo requirement.
-- [Gulf Montessori](https://gulfmontessorikw.com/) communicates an established institution and practical programme information, though the visual system is less contemporary.
+The project adopts clear hierarchy and direct parent actions while using original SVG/CSS visual language. Reference sites are inspiration only, never evidence of employment, accreditation or affiliation.
 
-The project adopts clear hierarchy and direct parent actions while replacing all photography with original SVG/CSS visual language. No inference is made that the founder worked at any reference school.
+## Montessori article sources
+
+The first journal article uses primary Association Montessori Internationale references: [Maria Montessori’s biography](https://montessori-ami.org/node/1820) and the [Montessori 3–6 environment](https://montessori-ami.org/node/2175). New educational or historical claims should link directly to reliable primary sources.
 
 ## Local discovery
 
-Exact-name search did not reveal a confidently attributable, mature indexed website for this school during research. That creates an opportunity for a verified Google Business Profile, consistent name/address/phone data, a fast local landing experience and precise structured data after the production domain is selected.
+A confidently attributable mature school website was not found during initial research. Opportunity therefore depends on an accurate Google Business Profile, consistent name/address/phone data, fast pages and approved structured data. Follow [Google business-detail guidance](https://developers.google.com/search/docs/appearance/establish-business-details) and [LocalBusiness structured-data guidance](https://developers.google.com/search/docs/appearance/structured-data/local-business).
 
-Authoritative guidance: [Google: establish business details](https://developers.google.com/search/docs/appearance/establish-business-details) and [Google LocalBusiness structured data](https://developers.google.com/search/docs/appearance/structured-data/local-business).
+## Cloudflare feasibility and cost choice
 
-## Cloudflare feasibility
+Cloudflare Pages can connect directly to GitHub and build each push, including preview deployments and repository checks. Static asset requests are documented as free and unlimited; the Free plan currently lists 500 builds per month and 20,000 files per site. Pages Functions would consume Workers quota, so none are used. See [Git integration](https://developers.cloudflare.com/pages/configuration/git-integration/), [Pages pricing](https://developers.cloudflare.com/pages/functions/pricing/) and [Pages limits](https://developers.cloudflare.com/pages/platform/limits/).
 
-Cloudflare documents first-class [Astro deployment on Workers](https://developers.cloudflare.com/workers/framework-guides/web-apps/astro/), including server output and bindings. D1 supplies a typed Worker binding and prepared statements documented in the [D1 Worker API](https://developers.cloudflare.com/d1/worker-api/) and [prepared statement guide](https://developers.cloudflare.com/d1/worker-api/prepared-statements/). This workload is low traffic and low write volume, well suited to D1 and Workers, but current plan limits and pricing must be checked again before launch.
-
-[Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/about/) is the only planned analytics product. It avoids adding third-party advertising or behavior-tracking pixels.
-
-## Research constraints
-
-Online references can change. Search results and third-party website content are not evidence of employment, accreditation or school ownership. Only the school can approve its claims; unknowns remain explicitly unpublished.
+Cloudflare Web Analytics remains optional after domain approval. No advertising or behavioral-tracking product is planned.

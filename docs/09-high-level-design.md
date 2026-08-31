@@ -1,47 +1,43 @@
 # High-level design
 
-- Status: Implemented baseline
-- Audience: Technical maintainers, security reviewers and school owner
-- Owner: Solution architect
-- Last updated: 2026-08-30
+- Status: Static architecture implemented; remote Pages provisioning pending
+- Audience: School owner, maintainers and reviewers
+- Owner: Architecture owner
+- Last updated: 2026-08-31
 
 ## System context
 
 ```mermaid
 flowchart LR
-    Parent[Prospective parent] --> Worker[Cloudflare Worker]
-    Staff[Approved school staff] --> Access[Cloudflare Access]
-    Access --> Worker
-    Worker --> Astro[Astro SSR application]
-    Astro --> D1[(Cloudflare D1)]
-    Astro --> Assets[Workers Static Assets]
-    Parent --> External[Phone / WhatsApp / Email / Maps / Instagram]
+    Operator[Approved operator] --> GitHub[GitHub dev branch]
+    GitHub --> Checks[GitHub Actions validation]
+    GitHub --> PagesBuild[Cloudflare Pages Git build]
+    PagesBuild --> Preview[Dev preview deployment]
+    GitHub --> PR[Reviewed pull request]
+    PR --> Main[Main branch]
+    Main --> PagesBuild
+    PagesBuild --> Static[Static HTML CSS JS SVG]
+    Parent[Prospective parent] --> Static
 ```
 
-## Containers and boundaries
-
-The Worker is the public origin and application runtime. Astro renders semantic pages and API routes. Static Assets serves compiled CSS, browser scripts and fonts referenced by the application; the site ships no raster image assets. D1 stores one current draft, immutable published revisions and audit events. Cloudflare Access is the identity and policy boundary for `/admin*` and `/api/admin*`.
+GitHub is the source of content, revision history and approval. Astro compiles Markdown and components into static files. Cloudflare Pages builds from Git and serves those files globally. No request-time application, database or identity service participates.
 
 ## Public request flow
 
 ```mermaid
 sequenceDiagram
     participant P as Parent browser
-    participant W as Cloudflare Worker
-    participant A as Astro SSR
-    participant D as D1
-    P->>W: GET public route
-    W->>A: Route request
-    A->>D: Read latest published revision
-    alt Published content exists
-        D-->>A: Valid SiteDocument JSON
-    else Database empty/unbound in development
-        A-->>A: Use repository fallback document
-    end
-    A-->>W: Semantic HTML + security/SEO headers
-    W-->>P: HTML and static CSS/JS
+    participant E as Cloudflare edge
+    participant A as Static asset
+    P->>E: GET /blog/article/
+    E->>A: Locate prebuilt index.html
+    A-->>E: HTML with metadata and content
+    E-->>P: Cached static response
+    P->>P: Apply local colour preference and optional motion
 ```
 
-## Service principles
+JavaScript enhances colour selection and entrance motion only. Links, text, SEO metadata and journal content remain useful when JavaScript is unavailable.
 
-There is no separate origin server, object store, media pipeline, marketing tracker or form-processing service. This deliberately small boundary reduces cost, maintenance, privacy exposure and attack surface.
+## Theme builds
+
+Garden and Geometry are separate Pages projects connected to the same repository. Each supplies a different `SITE_THEME` build variable. Content schemas and routes are shared; only visual tokens and motifs vary.
