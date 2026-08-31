@@ -1,6 +1,6 @@
 # Cloudflare infrastructure
 
-- Status: Garden selected for apex production; Pages cutover and redirects pending; Geometry remains noindex
+- Status: Garden apex variables and domains configured; certificate/deployment verification and redirects pending
 - Audience: Cloudflare administrators, maintainers and school owner
 - Owner: Infrastructure maintainer
 - Last updated: 2026-08-31
@@ -39,6 +39,8 @@ flowchart TB
 | Pages fallback | `https://first-step-montessori-garden.pages.dev` | `https://first-step-montessori-geometry.pages.dev` |
 
 Garden is the selected production identity. Its `main` build uses the apex origin and `SITE_ENV=production`; Geometry keeps its showcase origin and `SITE_ENV=preview`. All `dev` branch deployments remain previews and must be noindex. `SITE_THEME` controls only CSS, illustrations and motion, while `SITE_ENV` controls robots behavior and `PUBLIC_SITE_URL` controls canonical, sitemap and structured-data URLs. CI builds both themes against the production SEO contract to prevent theme-specific search regressions.
+
+The Garden production variables and the apex/`www` custom domains were applied through the authenticated Cloudflare Pages API on 2026-08-31. The API credential was obtained from the local Wrangler OAuth session in memory; it was not displayed, committed or stored in GitHub. The subsequent repository commit triggers the native Pages Git build with these settings.
 
 The cutover attaches the apex and `www` to Garden, redirects `www`, the former Garden showcase hostname and the Garden `pages.dev` fallback to the apex while preserving paths and queries, and leaves Joyful Geometry unchanged. Domain redirects are Cloudflare edge configuration because a Pages `_redirects` file cannot redirect between hostnames.
 

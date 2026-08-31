@@ -1,6 +1,6 @@
 # First Step Montessori website documentation
 
-- Status: Garden selected for production; apex cutover in progress; Geometry remains a noindex showcase; email destination/rule pending
+- Status: Garden production configuration applied; apex certificate/deployment verification in progress; Geometry remains noindex
 - Audience: School owner, content operators, maintainers and reviewers
 - Owner: First Step Montessori website maintainers
 - Last updated: 2026-08-31
@@ -18,7 +18,7 @@
 | Colour mode | System default with Light and Night overrides |
 | Photography | Excluded and enforced by validation |
 | Runtime services | No Workers, Pages Functions, D1, KV, R2 or Access |
-| Domain | `firststepmontessori.com` selected for Garden production; final Pages attachment pending |
+| Domain | `firststepmontessori.com` and `www` attached to Garden; activation verification in progress |
 | Live showcases | [Garden](https://garden.firststepmontessori.com) and [Joyful Geometry](https://joyful.firststepmontessori.com) |
 | School email | Email Routing DNS enabled; `hello@firststepmontessori.com` destination verification and routing rule pending |
 | Legacy cutover | Two preview Workers and their empty D1 database deleted after backup and replacement verification |
