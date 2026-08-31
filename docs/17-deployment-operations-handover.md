@@ -1,36 +1,34 @@
 # Deployment, operations and handover
 
-- Status: Local/static workflow complete; Pages provisioning, cutover and production handover pending
+- Status: Static workflow and Pages showcases complete; legacy Worker removal and production handover pending
 - Audience: Maintainers, Cloudflare operators and school owner
 - Owner: Operations owner
 - Last updated: 2026-08-31
 
 ## Local and repository workflow
 
-Use Node 22.12 or newer. Run `npm install`, `npm run dev`, `npm run validate`, both theme builds with `npm run validate:static`, and browser tests before a release. Commit phase work to `dev`; publish only through a reviewed PR to protected `main`.
+Use Node 24.20 LTS for CI and Cloudflare builds; local maintenance commands require Node 22.19 or newer. Run `npm install`, `npm run dev`, `npm run validate`, both theme builds with `npm run validate:static`, and browser tests before a release. Commit phase work to `dev`; publish only through a reviewed PR to protected `main`.
 
 ## Pages provisioning
 
-1. Reauthorize Cloudflare and install/authorize the Workers & Pages GitHub App for only the school repository.
-2. Create `first-step-montessori-garden` and `first-step-montessori-geometry` as Git-integrated Pages projects.
-3. Set `main` as production and allow `dev` previews.
-4. Set build command `npm run build`, output `dist`, Node `22.12.0`, project-specific `SITE_THEME`, Preview `SITE_ENV` and origin `PUBLIC_SITE_URL`.
-5. Confirm GitHub check runs and both `pages.dev` URLs.
-6. Verify routes, modes, headers, redirects, robots and static-only delivery.
+1. The Workers & Pages GitHub App is installed for only the school website repository.
+2. `first-step-montessori-garden` and `first-step-montessori-geometry` are live as Git-integrated Pages projects.
+3. `main` is production; `dev` is the only automatic preview branch.
+4. Both use `npm run build`, output `dist`, Node `24.20.0`, project-specific `SITE_THEME`, `SITE_ENV=preview` and their own `PUBLIC_SITE_URL`.
+5. Cloudflare native builds and GitHub validation run independently; neither uses a deployment token.
+6. Live routes, journal, modes, headers, robots, RSS, sitemap policy and custom 404 have passed verification.
 
 Cloudflare configuration belongs in the dashboard and [infrastructure record](12-cloudflare-infrastructure.md), not repository secrets. Do not create a deploy hook or GitHub API token.
 
 ## Legacy cutover and deletion
 
-1. Inventory exact Worker and D1 identifiers after authentication.
-2. Export `first-step-montessori-preview` to a timestamped gitignored local SQL backup.
-3. Compare useful published D1 content with repository content.
-4. Verify both Pages sites and preserve evidence.
-5. Delete `first-step-montessori-garden-preview` and `first-step-montessori-geometry-preview`.
-6. Delete any additional project Worker only after ownership is confirmed.
-7. Delete D1 `first-step-montessori-preview` after no binding remains.
-8. Remove obsolete Cloudflare deployment secrets from GitHub.
-9. Confirm old Worker URLs no longer serve the site and update the integration record.
+1. Exact inventory confirmed the two named legacy preview Workers.
+2. D1 inventory reported zero databases; no export or deletion is applicable.
+3. GitHub has no Cloudflare Actions deployment secrets to remove.
+4. Both Pages sites passed acceptance checks and evidence is recorded.
+5. After explicit approval, delete `first-step-montessori-garden-preview` and `first-step-montessori-geometry-preview`.
+6. Do not delete any other Worker.
+7. Confirm the old Worker URLs no longer serve the site and update the integration record.
 
 ## Rollback and maintenance
 

@@ -1,6 +1,6 @@
 # High-level design
 
-- Status: Static architecture implemented; remote Pages provisioning pending
+- Status: Static architecture implemented and deployed to both Pages showcases
 - Audience: School owner, maintainers and reviewers
 - Owner: Architecture owner
 - Last updated: 2026-08-31
