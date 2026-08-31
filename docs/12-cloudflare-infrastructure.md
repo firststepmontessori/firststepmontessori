@@ -1,6 +1,6 @@
 # Cloudflare infrastructure
 
-- Status: Pages custom subdomains and Email Routing DNS are active; legacy application runtime retired; email rule pending
+- Status: Garden selected for apex production; Pages cutover and redirects pending; Geometry remains noindex
 - Audience: Cloudflare administrators, maintainers and school owner
 - Owner: Infrastructure maintainer
 - Last updated: 2026-08-31
@@ -12,12 +12,11 @@ flowchart TB
     Repo[GitHub firststepmontessori repository]
     Repo -->|main and dev| GardenBuild[Pages Git build SITE_THEME=garden]
     Repo -->|main and dev| GeometryBuild[Pages Git build SITE_THEME=geometry]
-    GardenBuild --> Garden[garden.firststepmontessori.com]
-    GeometryBuild --> Geometry[joyful.firststepmontessori.com]
-    Domain[firststepmontessori.com] --> Garden
-    Domain --> Geometry
-    Domain -. after theme selection .-> Chosen[Chosen Pages project on apex and www]
-    Chosen --> Edge[Cloudflare static edge delivery]
+    GardenBuild --> Production[firststepmontessori.com]
+    GardenBuild --> GardenAlias[garden subdomain redirects to apex]
+    GeometryBuild --> Geometry[joyful.firststepmontessori.com noindex]
+    WWW[www.firststepmontessori.com] --> Production
+    Production --> Edge[Cloudflare static edge delivery]
     Browser[Parent browser] --> Edge
     Sender[Parent email] --> EmailRouting[Cloudflare Email Routing]
     EmailRouting --> Owner[Verified owner inbox]
@@ -34,11 +33,14 @@ flowchart TB
 | Build command | `npm run build` | `npm run build` |
 | Output directory | `dist` | `dist` |
 | `SITE_THEME` | `garden` | `geometry` |
-| `SITE_ENV` before selection | `preview` | `preview` |
-| Custom showcase origin | `https://garden.firststepmontessori.com` | `https://joyful.firststepmontessori.com` |
+| Production `SITE_ENV` | `production` | `preview` |
+| Production `PUBLIC_SITE_URL` | `https://firststepmontessori.com` | `https://joyful.firststepmontessori.com` |
+| Public role | Apex production; former Garden hostname redirects to apex | Noindex design showcase |
 | Pages fallback | `https://first-step-montessori-garden.pages.dev` | `https://first-step-montessori-geometry.pages.dev` |
 
-Each production build uses its matching custom showcase origin as `PUBLIC_SITE_URL`. Both keep `SITE_ENV=preview`, so the temporary showcases remain `noindex,nofollow`. After selection, attach `firststepmontessori.com` and `www.firststepmontessori.com` to the chosen project, set its production environment to `SITE_ENV=production`, and retain `dev` previews as noindex.
+Garden is the selected production identity. Its `main` build uses the apex origin and `SITE_ENV=production`; Geometry keeps its showcase origin and `SITE_ENV=preview`. All `dev` branch deployments remain previews and must be noindex. `SITE_THEME` controls only CSS, illustrations and motion, while `SITE_ENV` controls robots behavior and `PUBLIC_SITE_URL` controls canonical, sitemap and structured-data URLs. CI builds both themes against the production SEO contract to prevent theme-specific search regressions.
+
+The cutover attaches the apex and `www` to Garden, redirects `www`, the former Garden showcase hostname and the Garden `pages.dev` fallback to the apex while preserving paths and queries, and leaves Joyful Geometry unchanged. Domain redirects are Cloudflare edge configuration because a Pages `_redirects` file cannot redirect between hostnames.
 
 ## Interconnection
 

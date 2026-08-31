@@ -18,14 +18,19 @@ interface Props {
 
 const { site, title, description = site.seo.defaultDescription, pathname, noindex = false, pageType = "website", publishedTime, updatedTime } = Astro.props;
 const pageTitle = title ? `${title} | ${site.seo.titleSuffix}` : site.seo.titleSuffix;
-const canonical = new URL(pathname, Astro.site || Astro.url.origin).toString();
+const canonicalPath =
+  pathname === "/" || pathname.endsWith("/") || /\.[a-z0-9]+$/i.test(pathname)
+    ? pathname
+    : `${pathname}/`;
+const canonical = new URL(canonicalPath, Astro.site || Astro.url.origin).toString();
 const robots = noindex || SITE_ENVIRONMENT !== "production" ? "noindex,nofollow" : "index,follow,max-image-preview:none";
+const siteUrl = Astro.site?.toString() ?? Astro.url.origin;
 const organization = {
   "@type": ["EducationalOrganization", "LocalBusiness"],
-  "@id": `${Astro.site?.toString()}#school`,
+  "@id": `${siteUrl}#school`,
   name: site.settings.schoolName,
   description: site.seo.defaultDescription,
-  url: Astro.site?.toString(),
+  url: siteUrl,
   telephone: site.settings.phone,
   email: site.settings.email,
   address: {
@@ -36,21 +41,31 @@ const organization = {
     postalCode: "560097",
     addressCountry: "IN"
   },
-  sameAs: [`https://instagram.com/${site.settings.instagram}`]
+  sameAs: [`https://instagram.com/${site.settings.instagram}`],
+  hasMap: site.settings.mapUrl
+};
+const website = {
+  "@type": "WebSite",
+  "@id": `${siteUrl}#website`,
+  url: siteUrl,
+  name: site.settings.schoolName,
+  alternateName: site.settings.shortName,
+  inLanguage: "en-IN",
+  publisher: { "@id": `${siteUrl}#school` }
 };
 const structuredData = pageType === "article" ? {
   "@context": "https://schema.org",
-  "@graph": [organization, {
+  "@graph": [website, organization, {
     "@type": "BlogPosting",
     headline: title,
     description,
     datePublished: publishedTime?.toISOString(),
     dateModified: (updatedTime ?? publishedTime)?.toISOString(),
     mainEntityOfPage: canonical,
-    author: { "@type": "Organization", name: site.settings.schoolName, "@id": `${Astro.site?.toString()}#school` },
-    publisher: { "@id": `${Astro.site?.toString()}#school` }
+    author: { "@type": "Organization", name: site.settings.schoolName, "@id": `${siteUrl}#school` },
+    publisher: { "@id": `${siteUrl}#school` }
   }]
-} : { "@context": "https://schema.org", ...organization };
+} : { "@context": "https://schema.org", "@graph": [website, organization] };
 ---
 <!doctype html>
 <html lang="en" data-resolved-mode="light" data-mode-preference="system">
@@ -79,6 +94,8 @@ const structuredData = pageType === "article" ? {
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.settings.schoolName} />
+    <meta property="og:locale" content="en_IN" />
     {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
     {updatedTime && <meta property="article:modified_time" content={updatedTime.toISOString()} />}
     <meta name="theme-color" content={SITE_THEME === "garden" ? "#2F5D50" : "#6237C9"} />

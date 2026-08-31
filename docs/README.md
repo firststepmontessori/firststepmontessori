@@ -1,6 +1,6 @@
 # First Step Montessori website documentation
 
-- Status: Static implementation deployed to two custom-domain theme showcases; legacy runtime retired; email destination/rule pending
+- Status: Garden selected for production; apex cutover in progress; Geometry remains a noindex showcase; email destination/rule pending
 - Audience: School owner, content operators, maintainers and reviewers
 - Owner: First Step Montessori website maintainers
 - Last updated: 2026-08-31
@@ -14,11 +14,11 @@
 | Content management | Markdown/YAML in GitHub |
 | Publishing | `dev` preview, reviewed PR to `main`, native Pages Git build |
 | Blog | Static Markdown articles, topics, pagination, RSS and permanent slugs |
-| Themes | Garden and Geometry built from one repository |
+| Themes | Garden production identity; Geometry noindex showcase from the same repository |
 | Colour mode | System default with Light and Night overrides |
 | Photography | Excluded and enforced by validation |
 | Runtime services | No Workers, Pages Functions, D1, KV, R2 or Access |
-| Domain | `firststepmontessori.com`, with temporary theme subdomains |
+| Domain | `firststepmontessori.com` selected for Garden production; final Pages attachment pending |
 | Live showcases | [Garden](https://garden.firststepmontessori.com) and [Joyful Geometry](https://joyful.firststepmontessori.com) |
 | School email | Email Routing DNS enabled; `hello@firststepmontessori.com` destination verification and routing rule pending |
 | Legacy cutover | Two preview Workers and their empty D1 database deleted after backup and replacement verification |
