@@ -1,6 +1,6 @@
 # Integrations and deployment record
 
-- Status: Garden apex configuration applied; native rebuild/certificate verification pending; Geometry remains noindex
+- Status: Garden apex, SSL and redirects verified; Geometry remains noindex
 - Audience: Repository administrators, Cloudflare operators and maintainers
 - Owner: Integration maintainer
 - Last updated: 2026-08-31
@@ -35,7 +35,7 @@ flowchart LR
 
 | Resource | Intended state |
 |---|---|
-| Pages `first-step-montessori-garden` | Production variables set to Garden/apex; apex and `www` attached, activation verification in progress |
+| Pages `first-step-montessori-garden` | Live at `https://firststepmontessori.com`; Garden production metadata active; alternate hostnames redirect to the apex |
 | Pages `first-step-montessori-geometry` | Live at `https://joyful.firststepmontessori.com`; Pages fallback retained |
 | Email Routing | Domain enabled with MX/SPF/DKIM records; owner-confirmed Gmail destination added and Pending verification; zero routing rules |
 | Worker `first-step-montessori-garden-preview` | Deleted 2026-08-31; former URL returns 404 |
@@ -62,6 +62,9 @@ Both projects connect to `firststepmontessori/firststepmontessori`, build `main`
 - On 2026-08-31, both custom subdomains became Active with SSL. Home and `/blog/` returned HTTP 200 on both.
 - On 2026-08-31, Email Routing was activated for the apex domain and Cloudflare reported its DNS records Enabled. No routing rule was created and no private destination was recorded in GitHub.
 - On 2026-08-31, the owner-confirmed destination was added to Cloudflare and a verification message was sent. The destination remained Pending at handoff, so `hello@firststepmontessori.com` was not yet created.
+- On 2026-08-31, the apex and `www` proxied CNAME records were activated for Garden. HTTPS on the apex returned HTTP 200 with Garden identity and the expected security headers.
+- Zone-level permanent redirects were enabled for `www` and the former Garden showcase hostname. An account-level Bulk Redirect was enabled for the Garden Pages fallback. All three returned HTTP 301 to the equivalent apex path and preserved the test query string.
+- Live production verification found `index,follow`, the apex canonical, Garden theme identity, `WebSite`, `EducationalOrganization` and `LocalBusiness` JSON-LD, an apex-only sitemap and RSS feed, and HTTP 404 for an unknown route. Joyful Geometry still emitted `noindex,nofollow` and Geometry identity.
 - The supplied Google Maps short link was verified to open Street View at the school coordinates and was added to the shared site content. Street View remains an external link rather than an embedded photographic surface.
 - The final Worker binding inspection exposed the D1 resource omitted by the earlier account-level list view. The full export is `.local-backups/first-step-montessori-preview-20260831T091340Z.sql`, intentionally excluded from Git; its SHA-256 is `75f1d0135bd109bbabadcf36fdc86c34db54794aeac1dc23b18c646c4bbceab0`.
 - The backup contains the `d1_migrations`, `site_drafts`, `site_revisions` and `audit_log` schemas and zero content-row inserts.
@@ -69,6 +72,6 @@ Both projects connect to `firststepmontessori/firststepmontessori`, build `main`
 
 ## Domain handover
 
-Garden was approved as the production project on 2026-08-31. After cutover, record apex/`www` DNS status, redirect verification, production canonical rebuild, Search Console/Business Profile ownership and eventual Geometry retirement. Do not record registrar passwords, recovery codes, private forwarding destinations or tokens.
+Garden was approved as the production project on 2026-08-31. Apex/`www` DNS, SSL, redirects and production canonical behavior are verified. Search Console and Google Business Profile ownership, email completion and eventual Geometry retirement remain follow-up tasks. Do not record registrar passwords, recovery codes, private forwarding destinations or tokens.
 
-On 2026-08-31, the Garden production environment was changed to `SITE_THEME=garden`, `SITE_ENV=production` and `PUBLIC_SITE_URL=https://firststepmontessori.com`. The apex and `www` domains were then attached to the Garden Pages project. The operation used the existing local Cloudflare OAuth authorization only in memory; GitHub continues to hold no Cloudflare credential and deployment remains native Pages Git integration.
+On 2026-08-31, the Garden production environment was changed to `SITE_THEME=garden`, `SITE_ENV=production` and `PUBLIC_SITE_URL=https://firststepmontessori.com`. The apex and `www` domains were attached to the Garden Pages project and their activation was verified. The operation used authenticated Cloudflare administration without recording credentials; GitHub continues to hold no Cloudflare credential and deployment remains native Pages Git integration.

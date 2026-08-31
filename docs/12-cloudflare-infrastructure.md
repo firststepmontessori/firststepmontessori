@@ -1,6 +1,6 @@
 # Cloudflare infrastructure
 
-- Status: Garden apex variables and domains configured; certificate/deployment verification and redirects pending
+- Status: Garden production domain, SSL and canonical redirects active; Geometry remains noindex
 - Audience: Cloudflare administrators, maintainers and school owner
 - Owner: Infrastructure maintainer
 - Last updated: 2026-08-31
@@ -40,13 +40,13 @@ flowchart TB
 
 Garden is the selected production identity. Its `main` build uses the apex origin and `SITE_ENV=production`; Geometry keeps its showcase origin and `SITE_ENV=preview`. All `dev` branch deployments remain previews and must be noindex. `SITE_THEME` controls only CSS, illustrations and motion, while `SITE_ENV` controls robots behavior and `PUBLIC_SITE_URL` controls canonical, sitemap and structured-data URLs. CI builds both themes against the production SEO contract to prevent theme-specific search regressions.
 
-The Garden production variables and the apex/`www` custom domains were applied through the authenticated Cloudflare Pages API on 2026-08-31. The API credential was obtained from the local Wrangler OAuth session in memory; it was not displayed, committed or stored in GitHub. The subsequent repository commit triggers the native Pages Git build with these settings.
+The Garden production variables and the apex/`www` custom domains were applied through authenticated Cloudflare administration on 2026-08-31. No credential was displayed, committed or stored in GitHub. Repository merges continue to trigger the native Pages Git build with these settings.
 
-The cutover attaches the apex and `www` to Garden, redirects `www`, the former Garden showcase hostname and the Garden `pages.dev` fallback to the apex while preserving paths and queries, and leaves Joyful Geometry unchanged. Domain redirects are Cloudflare edge configuration because a Pages `_redirects` file cannot redirect between hostnames.
+The cutover is active. Proxied apex and `www` CNAME records point to the Garden Pages project. Cloudflare edge rules permanently redirect `www`, the former Garden showcase hostname and the Garden `pages.dev` fallback to the apex while preserving paths and queries. Joyful Geometry is unchanged. The account-level Bulk Redirect list contains only the Garden Pages fallback redirect; zone-level Single Redirect rules handle `www` and the former Garden hostname. Hostname redirects live at the edge because a Pages `_redirects` file cannot redirect between hostnames.
 
 ## Interconnection
 
-The Cloudflare Workers & Pages GitHub App is authorized only for `firststepmontessori/firststepmontessori` and starts builds on `main` and the allowlisted `dev` preview branch. GitHub Actions independently validates the same commit but does not deploy and stores no Cloudflare token. Pages reads `_headers` and `_redirects` from the build output. Cloudflare DNS maps each temporary theme subdomain to its Pages project. Email Routing, once activated, receives mail for the public school alias and forwards it to a separately verified inbox; the private destination is not stored in GitHub.
+The Cloudflare Workers & Pages GitHub App is authorized only for `firststepmontessori/firststepmontessori` and starts builds on `main` and the allowlisted `dev` preview branch. GitHub Actions independently validates the same commit but does not deploy and stores no Cloudflare token. Pages reads `_headers` and `_redirects` from the build output. Cloudflare DNS and edge redirects expose one canonical Garden production origin and retain the Geometry showcase. Email Routing, once activated, receives mail for the public school alias and forwards it to a separately verified inbox; the private destination is not stored in GitHub.
 
 ## Services deliberately absent
 
