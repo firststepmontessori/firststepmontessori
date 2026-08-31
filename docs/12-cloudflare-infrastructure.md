@@ -1,6 +1,6 @@
 # Cloudflare infrastructure
 
-- Status: Both Git-integrated Pages projects and custom subdomains are active; email routing and legacy Worker removal pending
+- Status: Pages custom subdomains and Email Routing DNS are active; email rule and legacy Worker removal pending
 - Audience: Cloudflare administrators, maintainers and school owner
 - Owner: Infrastructure maintainer
 - Last updated: 2026-08-31
@@ -46,7 +46,7 @@ The Cloudflare Workers & Pages GitHub App is authorized only for `firststepmonte
 
 ## Services deliberately absent
 
-No Pages Functions, application Workers, D1, KV, R2, Access, Images, deploy hooks or runtime secrets are required. Cloudflare Email Routing is an edge mail-forwarding service rather than application runtime and will be enabled only after the destination mailbox is verified. Optional Web Analytics may be enabled only after school approval.
+No Pages Functions, application Workers, D1, KV, R2, Access, Images, deploy hooks or runtime secrets are required. Cloudflare Email Routing is an edge mail-forwarding service rather than application runtime. Its domain DNS records were enabled on 2026-08-31; no public alias rule will be created until the destination mailbox is explicitly supplied and verified. Optional Web Analytics may be enabled only after school approval.
 
 ## Legacy resource cutover
 

@@ -1,6 +1,6 @@
 # Domain email routing
 
-- Status: Public alias selected; owner destination and verification pending
+- Status: Domain MX/SPF/DKIM enabled; public rule, owner destination and verification pending
 - Audience: School owner, domain administrator and maintainers
 - Owner: Domain and email administrator
 - Last updated: 2026-08-31
@@ -32,12 +32,14 @@ Cloudflare DNS supplies the required MX and sender-policy records. Email Routing
 
 1. Obtain the exact Gmail destination directly from the owner; do not infer it from a Cloudflare or GitHub account.
 2. Confirm that activating Cloudflare MX records will not displace an existing mail provider.
-3. Enable Email Routing for `firststepmontessori.com` and allow Cloudflare to add the required DNS records.
+3. **Complete (2026-08-31):** Enable Email Routing for `firststepmontessori.com` and allow Cloudflare to add the required DNS records.
 4. Add the destination address and ask the owner to click Cloudflare’s verification link.
 5. Create `hello@firststepmontessori.com` only after the destination reports Verified.
 6. Send an external test message and confirm receipt, sender, subject, body and attachments.
 7. Replace the temporary Gmail address in `src/content/site/school.md` with the public alias, validate both themes, and publish through a `dev` to `main` pull request.
 8. Test the website mail links and record only the date and pass/fail result in the integration record.
+
+Current Cloudflare state: the domain is onboarded, DNS records are Enabled, and there are zero routing rules. The next action requires the exact owner-approved Gmail destination and completion of Cloudflare's verification message.
 
 ## Sending replies
 

@@ -1,6 +1,6 @@
 # Integrations and deployment record
 
-- Status: Pages, repository and theme-domain integrations verified; email route and legacy Worker deletion pending
+- Status: Pages, repository, theme-domain and mail-DNS integrations verified; email rule and legacy Worker deletion pending
 - Audience: Repository administrators, Cloudflare operators and maintainers
 - Owner: Integration maintainer
 - Last updated: 2026-08-31
@@ -36,7 +36,7 @@ flowchart LR
 |---|---|
 | Pages `first-step-montessori-garden` | Live at `https://garden.firststepmontessori.com`; Pages fallback retained |
 | Pages `first-step-montessori-geometry` | Live at `https://joyful.firststepmontessori.com`; Pages fallback retained |
-| Email Routing | Planned public alias `hello@firststepmontessori.com`; exact private destination and verification pending |
+| Email Routing | Domain enabled with MX/SPF/DKIM records; zero routing rules; `hello@firststepmontessori.com` destination verification pending |
 | Worker `first-step-montessori-garden-preview` | Confirmed legacy; pending explicit deletion approval |
 | Worker `first-step-montessori-geometry-preview` | Confirmed legacy; pending explicit deletion approval |
 | D1 databases | Inventory returned zero databases; no action applicable |
@@ -59,6 +59,7 @@ Both projects connect to `firststepmontessori/firststepmontessori`, build `main`
 - Security headers were present, including HSTS, CSP, Permissions Policy, Referrer Policy, nosniff and frame denial.
 - Static output contains no Pages Function/Worker entrypoint, runtime binding or upload endpoint.
 - On 2026-08-31, both custom subdomains became Active with SSL. Home and `/blog/` returned HTTP 200 on both.
+- On 2026-08-31, Email Routing was activated for the apex domain and Cloudflare reported its DNS records Enabled. No routing rule was created and no private destination was recorded in GitHub.
 - Exact Worker deletion time and absence verification must be appended after separate destructive-action approval.
 
 ## Domain handover

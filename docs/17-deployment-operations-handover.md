@@ -1,6 +1,6 @@
 # Deployment, operations and handover
 
-- Status: Static workflow and custom-domain showcases complete; email route, theme selection and legacy Worker removal pending
+- Status: Static workflow, custom-domain showcases and mail DNS complete; email rule, theme selection and legacy Worker removal pending
 - Audience: Maintainers, Cloudflare operators and school owner
 - Owner: Operations owner
 - Last updated: 2026-08-31
