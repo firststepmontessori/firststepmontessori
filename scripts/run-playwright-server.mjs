@@ -26,7 +26,7 @@ if (buildExitCode !== 0) {
 }
 
 const child = spawn(process.execPath, [
-  "node_modules/astro/bin/astro.mjs",
+  "node_modules/vite/bin/vite.js",
   "preview",
   "--host",
   "127.0.0.1",

@@ -1,6 +1,6 @@
 # Deployment, operations and handover
 
-- Status: Static workflow, custom-domain showcases, mail DNS and legacy retirement complete; email rule and theme selection pending
+- Status: Garden selected for production; apex cutover in progress; email rule pending
 - Audience: Maintainers, Cloudflare operators and school owner
 - Owner: Operations owner
 - Last updated: 2026-08-31
@@ -14,10 +14,10 @@ Use Node 24.20 LTS for CI and Cloudflare builds; local maintenance commands requ
 1. The Workers & Pages GitHub App is installed for only the school website repository.
 2. `first-step-montessori-garden` and `first-step-montessori-geometry` are live as Git-integrated Pages projects.
 3. `main` is production; `dev` is the only automatic preview branch.
-4. Both use `npm run build`, output `dist`, Node `24.20.0`, project-specific `SITE_THEME`, `SITE_ENV=preview` and their own `PUBLIC_SITE_URL`.
+4. Both use `npm run build`, output `dist`, Node `24.20.0` and project-specific `SITE_THEME`. Garden production uses `SITE_ENV=production` with the apex origin; Geometry production remains a noindex showcase.
 5. Cloudflare native builds and GitHub validation run independently; neither uses a deployment token.
 6. `garden.firststepmontessori.com` and `joyful.firststepmontessori.com` are active with SSL and their home and journal routes return HTTP 200.
-7. Both showcases remain noindex until the school selects one theme.
+7. Garden is selected for production. Geometry and every `dev` branch deployment remain noindex.
 
 Cloudflare configuration belongs in the dashboard and [infrastructure record](12-cloudflare-infrastructure.md), not repository secrets. Do not create a deploy hook or GitHub API token.
 
@@ -38,6 +38,6 @@ For content/code, revert the merged PR and allow Pages to deploy the revert. For
 
 ## Production handover
 
-After theme selection, keep one Pages project, attach `firststepmontessori.com` and `www.firststepmontessori.com`, set the production canonical/indexing environment, validate Search Console and optional privacy-friendly analytics, and disable/delete the unselected showcase. Give the school collaborator access, the operator guide and domain-renewal responsibility. There is no application runtime bill to monitor.
+Attach `firststepmontessori.com` and `www.firststepmontessori.com` to Garden, set the apex canonical/indexing environment, add permanent hostname redirects, and validate Search Console and optional privacy-friendly analytics. Keep Geometry only as a noindex showcase until comparison is no longer needed, then disable/delete it. Give the school collaborator access, the operator guide and domain-renewal responsibility. There is no application runtime bill to monitor.
 
 Configure the public school email according to [the email-routing runbook](22-domain-email-routing.md). Keep the destination Gmail address out of repository content and operational screenshots. Cloudflare Email Routing handles inbound forwarding only; a later requirement to send as the school address must use an approved outbound mail service or a verified Gmail send-as configuration.

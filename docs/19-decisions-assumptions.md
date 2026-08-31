@@ -1,6 +1,6 @@
 # Decisions and assumptions
 
-- Status: Static architecture and temporary theme domains deployed; school content, theme and email-destination approvals pending
+- Status: Static architecture deployed; Garden production identity approved; school content and email completion pending
 - Audience: School owner, maintainers and reviewers
 - Owner: Architecture owner
 - Last updated: 2026-08-31
@@ -16,7 +16,8 @@
 - System is the default colour mode; explicit Light/Night choices stay local.
 - Contact remains direct; there is no public form.
 - Photography remains excluded from v1.
-- `firststepmontessori.com` is the school domain. Garden and Joyful Geometry remain temporary noindex showcases on separate subdomains from the same `main` build source.
+- `firststepmontessori.com` is the school domain and Calm Prepared Garden is the production identity. Joyful Geometry remains a noindex showcase from the same `main` build source until it is retired.
+- SEO behavior is controlled independently from visual theme. CI must prove either theme can emit the same valid production SEO contract.
 - The planned public school email is `hello@firststepmontessori.com`, forwarded to a verified owner-managed inbox without publishing that private destination.
 
 ## Assumptions
@@ -30,8 +31,7 @@
 ## Deferred decisions
 
 - Final school facts, named profiles and programme wording.
-- Chosen Garden/Geometry production identity.
-- Launch date and final apex/`www` cutover.
+- Launch date and completion of apex/`www` cutover.
 - Exact owner inbox for Email Routing and whether to add `admissions@firststepmontessori.com` as a second alias.
 - Google Business Profile/Search Console ownership.
 - Whether to enable Cloudflare Web Analytics.

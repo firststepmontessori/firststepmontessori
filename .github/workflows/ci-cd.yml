@@ -47,3 +47,9 @@ jobs:
 
       - name: Verify Geometry static output
         run: npm run build:geometry && npm run validate:static
+
+      - name: Verify Garden production SEO output
+        run: npm run validate:seo:garden
+
+      - name: Verify Geometry production SEO output
+        run: npm run validate:seo:geometry

@@ -1,6 +1,6 @@
 # First Step Montessori website
 
-A photo-free, static Astro website for First Step Montessori in Vidyaranyapura, North Bangalore. One repository builds the Calm Prepared Garden and Joyful Geometry themes with identical school content.
+A photo-free, static Astro website for First Step Montessori in Vidyaranyapura, North Bangalore. Calm Prepared Garden is the production identity. The same repository also builds a noindex Joyful Geometry showcase with identical school content.
 
 ## Content publishing
 
@@ -39,7 +39,7 @@ npm run test:e2e
 
 ## Deployment
 
-Cloudflare Pages connects directly to this GitHub repository. The Garden and Geometry Pages projects use separate `SITE_THEME` values and publish the `dist` directory. GitHub Actions validates changes but holds no Cloudflare credentials and performs no deployment.
+Cloudflare Pages connects directly to this GitHub repository. The Garden project publishes the production site; the Geometry project remains a noindex showcase. Separate `SITE_THEME` values select presentation only. `SITE_ENV` and `PUBLIC_SITE_URL` control indexing and canonical identity independently, and CI verifies production SEO for both themes. GitHub Actions validates changes but holds no Cloudflare credentials and performs no deployment.
 
 See the [documentation index](docs/README.md), [content operator guide](docs/21-content-operator-guide.md), [content verification checklist](docs/18-content-verification-checklist.md), and [approved design concepts](design/README.md).
 

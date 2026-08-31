@@ -19,9 +19,14 @@
     "validate:content": "node scripts/validate-content.mjs",
     "validate:no-photos": "node scripts/validate-no-photos.mjs",
     "validate:static": "node scripts/validate-static-output.mjs",
+    "validate:seo:production": "node scripts/validate-production-seo.mjs",
     "validate": "npm run check && npm run test && npm run lint:docs && npm run validate:docs && npm run validate:links && npm run validate:mermaid && npm run validate:content && npm run validate:no-photos",
     "build:garden": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=garden SITE_ENV=preview astro build",
-    "build:geometry": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=geometry SITE_ENV=preview astro build"
+    "build:geometry": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=geometry SITE_ENV=preview astro build",
+    "build:garden:production": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=garden SITE_ENV=production PUBLIC_SITE_URL=https://firststepmontessori.com astro build",
+    "build:geometry:production": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=geometry SITE_ENV=production PUBLIC_SITE_URL=https://firststepmontessori.com astro build",
+    "validate:seo:garden": "npm run build:garden:production && EXPECTED_SITE_THEME=garden npm run validate:seo:production",
+    "validate:seo:geometry": "npm run build:geometry:production && EXPECTED_SITE_THEME=geometry npm run validate:seo:production"
   },
   "dependencies": {
     "astro": "7.2.9",

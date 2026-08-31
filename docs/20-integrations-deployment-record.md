@@ -1,6 +1,6 @@
 # Integrations and deployment record
 
-- Status: Pages, repository, theme-domain and mail-DNS integrations verified; legacy runtime retired; email rule pending
+- Status: Garden selected for production; apex cutover pending verification; Geometry remains noindex; email rule pending
 - Audience: Repository administrators, Cloudflare operators and maintainers
 - Owner: Integration maintainer
 - Last updated: 2026-08-31
@@ -14,8 +14,9 @@ flowchart LR
     Dev -->|native preview build| Geometry[Geometry Pages project]
     Main[Protected GitHub main] -->|native production build| Garden
     Main -->|native production build| Geometry
-    Garden --> GardenURL[garden.firststepmontessori.com]
-    Geometry --> GeometryURL[joyful.firststepmontessori.com]
+    Garden --> Apex[firststepmontessori.com production]
+    Garden --> GardenURL[garden hostname redirects to apex]
+    Geometry --> GeometryURL[joyful.firststepmontessori.com noindex]
     Mail[hello at firststepmontessori.com] -. pending destination verification .-> Route[Cloudflare Email Routing]
     Route -. forward .-> Inbox[Private owner inbox]
     LegacyWorkers[Two legacy preview Workers and D1] -->|backup, verify, delete| Retirement[Retired resources]
@@ -34,7 +35,7 @@ flowchart LR
 
 | Resource | Intended state |
 |---|---|
-| Pages `first-step-montessori-garden` | Live at `https://garden.firststepmontessori.com`; Pages fallback retained |
+| Pages `first-step-montessori-garden` | Selected for `https://firststepmontessori.com`; attachment and redirects pending verification |
 | Pages `first-step-montessori-geometry` | Live at `https://joyful.firststepmontessori.com`; Pages fallback retained |
 | Email Routing | Domain enabled with MX/SPF/DKIM records; owner-confirmed Gmail destination added and Pending verification; zero routing rules |
 | Worker `first-step-montessori-garden-preview` | Deleted 2026-08-31; former URL returns 404 |
@@ -46,7 +47,7 @@ Fresh browser and Wrangler authorization completed on 2026-08-31. The GitHub App
 
 ## Pages build configuration
 
-Both projects connect to `firststepmontessori/firststepmontessori`, build `main`, preview only `dev`, run `npm run build` and publish `dist`. Garden uses `SITE_THEME=garden`; Geometry uses `SITE_THEME=geometry`. Both showcase production environments use `SITE_ENV=preview` and their matching custom subdomain as `PUBLIC_SITE_URL`, keeping them noindex until selection. No deploy hook, Wrangler command, Pages Function, binding or API token is used.
+Both projects connect to `firststepmontessori/firststepmontessori`, build `main`, preview only `dev`, run `npm run build` and publish `dist`. Garden uses `SITE_THEME=garden`; Geometry uses `SITE_THEME=geometry`. The selected Garden production environment is to use `SITE_ENV=production` and `PUBLIC_SITE_URL=https://firststepmontessori.com`; Geometry keeps `SITE_ENV=preview` and its Joyful hostname. No deploy hook, Wrangler deployment command, Pages Function, binding or API token is used.
 
 ## Verification evidence
 
@@ -68,4 +69,4 @@ Both projects connect to `firststepmontessori/firststepmontessori`, build `main`
 
 ## Domain handover
 
-After theme approval, record the chosen project, apex/`www` DNS status, production canonical rebuild, Search Console/Business Profile ownership and unselected-project retirement. Do not record registrar passwords, recovery codes, private forwarding destinations or tokens.
+Garden was approved as the production project on 2026-08-31. After cutover, record apex/`www` DNS status, redirect verification, production canonical rebuild, Search Console/Business Profile ownership and eventual Geometry retirement. Do not record registrar passwords, recovery codes, private forwarding destinations or tokens.

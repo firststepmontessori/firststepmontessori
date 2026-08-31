@@ -16,10 +16,11 @@
 | Content safety | `npm run validate:content` | Filename/slug match, no raw HTML or Markdown images |
 | Media safety | `npm run validate:no-photos` | No raster assets or upload surfaces |
 | Static artifact | `npm run validate:static` | Required HTML/RSS/header files and no runtime/admin code |
+| Production SEO | `npm run validate:seo:garden` and `npm run validate:seo:geometry` | Theme-independent canonicals, indexing, JSON-LD, robots, sitemap and RSS |
 | Browser | `npm run test:e2e` | Routes, modes, no-JS, responsive, policies and blog |
 | Accessibility | Playwright + axe | WCAG A/AA checks in Light and Night on desktop/mobile |
 
-CI validates content and documentation, installs Chromium, runs browser tests, builds Garden, validates static output, builds Geometry and validates again. It never deploys.
+CI validates content and documentation, installs Chromium, runs browser tests, validates both preview static builds, then validates both themes against the same apex production SEO contract. It never deploys.
 
 ## Acceptance matrix
 
