@@ -1,6 +1,6 @@
 # Deployment, operations and handover
 
-- Status: Garden selected for production; apex cutover in progress; email rule pending
+- Status: Garden apex configuration applied; native rebuild and certificate verification in progress; email rule pending
 - Audience: Maintainers, Cloudflare operators and school owner
 - Owner: Operations owner
 - Last updated: 2026-08-31

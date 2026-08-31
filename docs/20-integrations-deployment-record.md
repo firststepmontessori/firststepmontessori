@@ -1,6 +1,6 @@
 # Integrations and deployment record
 
-- Status: Garden selected for production; apex cutover pending verification; Geometry remains noindex; email rule pending
+- Status: Garden apex configuration applied; native rebuild/certificate verification pending; Geometry remains noindex
 - Audience: Repository administrators, Cloudflare operators and maintainers
 - Owner: Integration maintainer
 - Last updated: 2026-08-31
@@ -35,7 +35,7 @@ flowchart LR
 
 | Resource | Intended state |
 |---|---|
-| Pages `first-step-montessori-garden` | Selected for `https://firststepmontessori.com`; attachment and redirects pending verification |
+| Pages `first-step-montessori-garden` | Production variables set to Garden/apex; apex and `www` attached, activation verification in progress |
 | Pages `first-step-montessori-geometry` | Live at `https://joyful.firststepmontessori.com`; Pages fallback retained |
 | Email Routing | Domain enabled with MX/SPF/DKIM records; owner-confirmed Gmail destination added and Pending verification; zero routing rules |
 | Worker `first-step-montessori-garden-preview` | Deleted 2026-08-31; former URL returns 404 |
@@ -70,3 +70,5 @@ Both projects connect to `firststepmontessori/firststepmontessori`, build `main`
 ## Domain handover
 
 Garden was approved as the production project on 2026-08-31. After cutover, record apex/`www` DNS status, redirect verification, production canonical rebuild, Search Console/Business Profile ownership and eventual Geometry retirement. Do not record registrar passwords, recovery codes, private forwarding destinations or tokens.
+
+On 2026-08-31, the Garden production environment was changed to `SITE_THEME=garden`, `SITE_ENV=production` and `PUBLIC_SITE_URL=https://firststepmontessori.com`. The apex and `www` domains were then attached to the Garden Pages project. The operation used the existing local Cloudflare OAuth authorization only in memory; GitHub continues to hold no Cloudflare credential and deployment remains native Pages Git integration.
