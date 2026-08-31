@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
-import { getDatabase, getPublishedDocument } from "../lib/db";
-const site = await getPublishedDocument(getDatabase(Astro.locals));
+import { getSiteDocument } from "../content/site";
+const site = await getSiteDocument();
 ---
 <BaseLayout site={site} title="Admissions and contact" pathname="/admissions-contact">
   <PageHero label="Admissions & contact" title={site.pages.admissions.title} introduction={site.pages.admissions.introduction} />

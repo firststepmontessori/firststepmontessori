@@ -2,8 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import ContactCTA from "../components/ContactCTA.astro";
-import { getDatabase, getPublishedDocument } from "../lib/db";
-const site = await getPublishedDocument(getDatabase(Astro.locals));
+import { getSiteDocument } from "../content/site";
+const site = await getSiteDocument();
 ---
 <BaseLayout site={site} title="Montessori approach" pathname="/montessori-approach">
   <PageHero label="Our approach" title={site.pages.approach.title} introduction={site.pages.approach.introduction} />

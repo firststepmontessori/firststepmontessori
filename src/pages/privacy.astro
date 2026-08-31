@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
-import { getDatabase, getPublishedDocument } from "../lib/db";
-const site = await getPublishedDocument(getDatabase(Astro.locals));
+import { getSiteDocument } from "../content/site";
+const site = await getSiteDocument();
 ---
 <BaseLayout site={site} title="Privacy" pathname="/privacy">
   <PageHero label="Policy" title="Privacy without unnecessary collection" introduction="This website is designed to provide useful school information without collecting parent or child data through a public form." />

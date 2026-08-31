@@ -3,14 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroArt from "../components/HeroArt.astro";
 import ProgrammeGrid from "../components/ProgrammeGrid.astro";
 import ContactCTA from "../components/ContactCTA.astro";
-import { getAdminIdentity } from "../lib/admin";
-import { getDatabase, getDraft, getPublishedDocument } from "../lib/db";
-const db = getDatabase(Astro.locals);
-const previewRequested = Astro.url.searchParams.get("preview") === "draft";
-const previewActor = previewRequested ? getAdminIdentity(Astro) : null;
-const site = previewActor ? (await getDraft(db)).document : await getPublishedDocument(db);
+import { getSiteDocument } from "../content/site";
+const site = await getSiteDocument();
 ---
-<BaseLayout site={site} pathname="/" noindex={Boolean(previewActor)}>
+<BaseLayout site={site} pathname="/">
   <section class="hero">
     <div class="shell hero-grid">
       <div class="hero-copy">

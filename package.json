@@ -16,20 +16,11 @@
     "validate:docs": "node scripts/validate-docs.mjs",
     "validate:no-photos": "node scripts/validate-no-photos.mjs",
     "validate": "npm run check && npm run test && npm run lint:docs && npm run validate:docs && npm run validate:no-photos",
-    "cf:typegen": "wrangler types",
-    "db:migrate:local": "wrangler d1 migrations apply first-step-montessori-preview --local",
-    "db:migrate:preview": "wrangler d1 migrations apply first-step-montessori-preview --remote",
-    "deploy:garden": "PUBLIC_SITE_URL=https://first-step-montessori-garden-preview.harshu-1982.workers.dev npm run build:garden && wrangler deploy --env garden --name first-step-montessori-garden-preview",
-    "deploy:geometry": "PUBLIC_SITE_URL=https://first-step-montessori-geometry-preview.harshu-1982.workers.dev npm run build:geometry && wrangler deploy --env geometry --name first-step-montessori-geometry-preview",
-    "deploy:previews": "npm run deploy:garden && npm run deploy:geometry",
     "build:garden": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=garden SITE_ENV=preview astro build",
     "build:geometry": "ASTRO_TELEMETRY_DISABLED=1 SITE_THEME=geometry SITE_ENV=preview astro build"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "14.2.5",
-    "@astrojs/preact": "6.0.4",
     "astro": "7.2.9",
-    "preact": "10.29.8",
     "zod": "4.5.4"
   },
   "devDependencies": {
@@ -39,8 +30,7 @@
     "@types/node": "latest",
     "markdownlint-cli2": "latest",
     "typescript": "latest",
-    "vitest": "latest",
-    "wrangler": "4.127.1"
+    "vitest": "latest"
   },
   "engines": {
     "node": ">=22.12.0"
